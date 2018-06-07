@@ -1,0 +1,30 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Efaz Company</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="password2">Confirm Password</string>
+    <string name="userName">Username</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="website">Website</string>
+    <string name="next">Next</string>
+    <string name="signUp">Sign Up</string>
+    <string name="login">Sign in</string>
+    <string name="haveEmail">Already have Email</string>
+    <string name="companydata">Company Data</string>
+    <string name="organization_name">Organization Name</string>
+    <string name="company_contacts">Company Contacts</string>
+    <string name="donthave" tools:ignore="StringEscaping">Don't have an account?</string>
+    <string name="email_valid">Email is not valid.</string>
+    <string name="pass_valid">Password length at least 8</string>
+    <string name="pass_confirm">Not The Same</string>
+    <string name="pass_confirm2">Please Confirm password</string>
+    <string name="fill_data">Please Fill data</string>
+    <string name="website_error">Please enter correct website url</string>
+    <string name="phone_error">Please enter correct phone number</string>
+    <string name="complete_profile">Complete Profile</string>
+    <string name="edit">edit</string>
+    <string name="youtube">add video for company as youtube url(optional)</string>
+    <string name="svaeProfile">Save Profile</string>
+
+</resources>
