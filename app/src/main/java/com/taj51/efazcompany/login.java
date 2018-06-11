@@ -83,6 +83,7 @@ public class login extends AppCompatActivity
                 String email = mal.getText().toString().trim();
                 String password = pswd.getText().toString().trim();
                 logIn(email, password, 1, 1);
+
             }
         });
 
@@ -140,7 +141,7 @@ public class login extends AppCompatActivity
 
     }
 
-    public void logIn(String user_email, String user_password, int is_active, int login_type){
+    public void logIn(String user_email, String user_password, int is_active, final int login_type){
 
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(login.this);
@@ -153,9 +154,26 @@ public class login extends AppCompatActivity
         Api.getClient().login(loginPOJO).enqueue(new Callback<LoginPOJO>() {
             @Override
             public void onResponse(retrofit2.Call<LoginPOJO> call, Response<LoginPOJO> response) {
-                loginData = response.body();
-                Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
-                progressDialog.dismiss();
+                try{
+                    loginData = response.body();
+
+                    Toast.makeText(getApplicationContext(), loginData.getLogin_id()+"", Toast.LENGTH_LONG).show();
+                    Log.d("test", loginData.getLogin_id()+"");
+                    Intent intent = new Intent(getBaseContext(), CompleteProfileActivity.class);
+                    intent.putExtra("id", loginData.getLogin_id());
+                    intent.putExtra("email", loginData.getUser_email());
+                    startActivity(intent);
+                    progressDialog.dismiss();
+                }catch (IllegalStateException e){
+                    Toast.makeText(getApplicationContext(), loginData.getLogin_id(), Toast.LENGTH_LONG).show();
+                    Log.d("test", loginData.getLogin_id()+"");
+                }finally {
+                    {
+                        //Toast.makeText(getApplicationContext(), loginData.getLogin_id(), Toast.LENGTH_LONG).show();
+                        //Log.d("test", loginData.getLogin_id()+"");
+                    }
+                }
+
             }
 
             @Override

@@ -6,7 +6,7 @@
     <string name="userName">Username</string>
     <string name="phone">Phone</string>
     <string name="address">Address</string>
-    <string name="website">Website</string>
+    <string name="website">Website url</string>
     <string name="next">Next</string>
     <string name="signUp">Sign Up</string>
     <string name="login">Sign in</string>
@@ -26,5 +26,6 @@
     <string name="edit">edit</string>
     <string name="youtube">add video for company as youtube url(optional)</string>
     <string name="svaeProfile">Save Profile</string>
+    <string name="youtube_error">InValid Url</string>
 
 </resources>

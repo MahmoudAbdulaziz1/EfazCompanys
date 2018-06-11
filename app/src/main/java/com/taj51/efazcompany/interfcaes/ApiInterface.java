@@ -1,6 +1,9 @@
 package com.taj51.efazcompany.interfcaes;
 
+import com.taj51.efazcompany.pojo.CategoryPojo;
+import com.taj51.efazcompany.pojo.LoginDetailsPOJO;
 import com.taj51.efazcompany.pojo.LoginPOJO;
+import com.taj51.efazcompany.pojo.ProfilePOJO;
 import com.taj51.efazcompany.pojo.SignUpPOJO;
 
 import java.util.List;
@@ -19,7 +22,7 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("/register/add")
         // API's endpoints
-    Call<SignUpPOJO> registration(@Body SignUpPOJO signUpPOJO);
+    Call<Void> registration(@Body SignUpPOJO signUpPOJO);
 
     @GET("/register/getAll")
     Call<List<SignUpPOJO>> getAllRegisters();
@@ -27,5 +30,20 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("/login/loginUser")
     Call<LoginPOJO>login(@Body LoginPOJO loginPOJO);
+
+    @Headers("Content-Type: application/json")
+    @POST("/profile/addProfile")
+    Call<Integer>AddUserProfile(@Body ProfilePOJO profilePOJO);
+
+    @GET("/cat/getCategories")
+    Call<List<CategoryPojo>> getCategories();
+
+    @Headers("Content-Type: application/json")
+    @POST("/details/add")
+    Call<Void>addLoginDetails(@Body LoginDetailsPOJO pojo);
+
+    @GET("/details/getAll")
+    Call<List<LoginDetailsPOJO>> getLoginDetails();
+
 
 }
