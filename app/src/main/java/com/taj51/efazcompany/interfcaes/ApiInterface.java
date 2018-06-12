@@ -45,5 +45,10 @@ public interface ApiInterface {
     @GET("/details/getAll")
     Call<List<LoginDetailsPOJO>> getLoginDetails();
 
+    @POST("/login/isLogged")
+    Call<Boolean> isLogged(@Body LoginPOJO pojo);
+
+    @POST("/login/getLoginId")
+    Call<Integer> getLoggedId(@Body LoginPOJO pojo);
 
 }

@@ -3,11 +3,13 @@ package com.taj51.efazcompany;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,8 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.taj51.efazcompany.api_classes.Api;
+import com.taj51.efazcompany.pojo.LoginDetailsPOJO;
 import com.taj51.efazcompany.pojo.LoginPOJO;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -82,7 +91,7 @@ public class login extends AppCompatActivity
             public void onClick(View v) {
                 String email = mal.getText().toString().trim();
                 String password = pswd.getText().toString().trim();
-                logIn(email, password, 1, 1);
+                logIn(email, password, 1, 0);
 
             }
         });
@@ -149,37 +158,72 @@ public class login extends AppCompatActivity
         progressDialog.setMessage("Please Wait"); // set message
         progressDialog.show(); // show progress dialog
 
-        LoginPOJO loginPOJO = new LoginPOJO(user_email, user_password, is_active, login_type);
+        final LoginPOJO loginPOJO = new LoginPOJO(user_email, user_password, is_active, login_type);
 
-        Api.getClient().login(loginPOJO).enqueue(new Callback<LoginPOJO>() {
+        Api.getClient().isLogged(loginPOJO).enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(retrofit2.Call<LoginPOJO> call, Response<LoginPOJO> response) {
-                try{
-                    loginData = response.body();
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
 
-                    Toast.makeText(getApplicationContext(), loginData.getLogin_id()+"", Toast.LENGTH_LONG).show();
-                    Log.d("test", loginData.getLogin_id()+"");
-                    Intent intent = new Intent(getBaseContext(), CompleteProfileActivity.class);
-                    intent.putExtra("id", loginData.getLogin_id());
-                    intent.putExtra("email", loginData.getUser_email());
-                    startActivity(intent);
-                    progressDialog.dismiss();
+
+                try{
+                    boolean isFound = response.body();
+                    if (isFound) {
+
+                        Api.getClient().getLoggedId(loginPOJO).enqueue(new Callback<Integer>() {
+                            @Override
+                            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                Toast.makeText(getApplicationContext(), response.body()+"", Toast.LENGTH_LONG).show();
+                                final int loginId = response.body();
+                                String dates = getDateFor();
+
+                                Timestamp time = getTimeStamp(dates);
+                                WifiManager wm = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+                                String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+                                LoginDetailsPOJO loginDetailsPOJO = new LoginDetailsPOJO(loginId,0, dates, ip, 1);
+                                Api.getClient().addLoginDetails(loginDetailsPOJO).enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+//                                        Intent intent = new Intent(getBaseContext(), CompleteProfileActivity.class);
+//                                        intent.putExtra("id", loginId);
+//
+//                                        startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(Call<Integer> call, Throwable t) {
+
+                            }
+                        });
+
+
+
+                        Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                        startActivity(intent);
+                        progressDialog.dismiss();
+                    }else {
+                        progressDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "Email not found ", Toast.LENGTH_SHORT).show();
+                    }
+
                 }catch (IllegalStateException e){
                     Toast.makeText(getApplicationContext(), loginData.getLogin_id(), Toast.LENGTH_LONG).show();
                     Log.d("test", loginData.getLogin_id()+"");
-                }finally {
-                    {
-                        //Toast.makeText(getApplicationContext(), loginData.getLogin_id(), Toast.LENGTH_LONG).show();
-                        //Log.d("test", loginData.getLogin_id()+"");
-                    }
                 }
+
 
             }
 
             @Override
-            public void onFailure(retrofit2.Call<LoginPOJO> call, Throwable t) {
-                Log.d("response", t.getMessage().toString());
-                progressDialog.dismiss();
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
             }
         });
 
@@ -200,5 +244,26 @@ public class login extends AppCompatActivity
         editor2.putString("pass", "");
         editor2.putString("pass2", "");
         editor2.commit();
+    }
+
+
+    public String getDateFor(){
+        Date javaUtilDate= new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        System.out.println(formatter.format(javaUtilDate));
+        String dates = formatter.format(javaUtilDate);
+        return dates;
+    }
+
+    public Timestamp getTimeStamp(String date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        Date parsedDate = null;
+        try {
+            parsedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        return timestamp;
     }
 }
