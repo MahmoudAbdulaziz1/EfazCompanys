@@ -155,7 +155,7 @@ public class CompanyContacts extends AppCompatActivity {
                         Timestamp time = getTimeStamp(dates);
                         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
                         String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-                        LoginDetailsPOJO loginDetailsPOJO = new LoginDetailsPOJO(loginData.getLogin_id(), loginData.getLogin_id(), dates, ip, 1);
+                        LoginDetailsPOJO loginDetailsPOJO = new LoginDetailsPOJO(loginData.getLogin_id(), 0, dates, ip, 1);
                         Api.getClient().addLoginDetails(loginDetailsPOJO).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
