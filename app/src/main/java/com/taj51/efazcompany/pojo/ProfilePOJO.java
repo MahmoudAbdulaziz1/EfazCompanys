@@ -11,9 +11,17 @@ public class ProfilePOJO {
     private String company_website_url;
 
 
-    public ProfilePOJO() {
+    public ProfilePOJO(int company_id, String company_name, byte[] company_logo_image, String company_address,
+                               String company_service_desc, String company_link_youtube, String company_website_url) {
+        this.company_id = company_id;
+        this.company_name = company_name;
+        this.company_logo_image = company_logo_image;
+        this.company_address = company_address;
+        this.company_service_desc = company_service_desc;
+        this.company_link_youtube = company_link_youtube;
+        this.company_website_url = company_website_url;
+        //this.login_id_company = login_id_company;
     }
-
     public ProfilePOJO(String company_name, byte[] company_logo_image, String company_address,
                        String company_service_desc, String company_link_youtube, String company_website_url) {
         this.company_name = company_name;
@@ -22,18 +30,10 @@ public class ProfilePOJO {
         this.company_service_desc = company_service_desc;
         this.company_link_youtube = company_link_youtube;
         this.company_website_url = company_website_url;
-
+        //this.login_id_company = login_id_company;
     }
 
-    public ProfilePOJO(int company_id, String company_name, byte[] company_logo_image, String company_address,
-                       String company_service_desc, String company_link_youtube, String company_website_url) {
-        this.company_id = company_id;
-        this.company_name = company_name;
-        this.company_logo_image = company_logo_image;
-        this.company_address = company_address;
-        this.company_service_desc = company_service_desc;
-        this.company_link_youtube = company_link_youtube;
-        this.company_website_url = company_website_url;
+    public ProfilePOJO() {
     }
 
     public int getCompany_id() {

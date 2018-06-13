@@ -27,5 +27,11 @@
     <string name="youtube">add video for company as youtube url(optional)</string>
     <string name="svaeProfile">Save Profile</string>
     <string name="youtube_error">InValid Url</string>
+    <string name="companyService">Our Service</string>
+    <string name="company_name">Company Name</string>
+    <string name="evvaz">EVVAZ</string>
+    <string name="taj_mail">jobs@taj51.com</string>
+    <string name="taj_website">www.taj51.com</string>
+    <string name="service_name">خدماتنا هي ...</string>
 
 </resources>

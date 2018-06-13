@@ -185,7 +185,7 @@ public class CompanyContacts extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("response", t.getMessage().toString());
+                //Log.d("response", t.getMessage().toString());
                 progressDialog.dismiss();
             }
         });

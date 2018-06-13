@@ -142,13 +142,17 @@ public class CompleteProfileActivity extends AppCompatActivity {
                 }else {
                     if (youtube.equals("")){
                         if (validateWebsite()) {
+                            final int id = intent.getIntExtra("id", 0);
+                            final String email = intent.getStringExtra("email");
                             ProfilePOJO pojo = new ProfilePOJO(intent.getIntExtra("id", 0), name, Base64.decode(byts, 0),
                                     address, category, youtube, website);
                             Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
                                 @Override
                                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-
-
+                                    Intent move = new Intent(getBaseContext(), ProfileActivity.class);
+                                    move.putExtra("id", id);
+                                    move.putExtra("email", email);
+                                    startActivity(move);
                                 }
 
                                 @Override

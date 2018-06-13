@@ -15,6 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
 
@@ -50,5 +51,8 @@ public interface ApiInterface {
 
     @POST("/login/getLoginId")
     Call<Integer> getLoggedId(@Body LoginPOJO pojo);
+
+    @GET("/profile/getProfile/{id}")
+    Call<ProfilePOJO> getProfile(@Path("id") int id);
 
 }
