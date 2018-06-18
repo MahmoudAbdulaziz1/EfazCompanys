@@ -169,17 +169,17 @@ public class login extends AppCompatActivity
                     boolean isFound = response.body();
                     if (isFound) {
 
-                        Api.getClient().getLoggedId(loginPOJO).enqueue(new Callback<Integer>() {
+                        Api.getClient().getLoggedId(loginPOJO).enqueue(new Callback<LoginPOJO>() {
                             @Override
-                            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                            public void onResponse(Call<LoginPOJO> call, Response<LoginPOJO> response) {
                                 Toast.makeText(getApplicationContext(), response.body()+"", Toast.LENGTH_LONG).show();
-                                final int loginId = response.body();
+                                loginData = response.body();
                                 String dates = getDateFor();
 
                                 Timestamp time = getTimeStamp(dates);
                                 WifiManager wm = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
                                 String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-                                LoginDetailsPOJO loginDetailsPOJO = new LoginDetailsPOJO(loginId,0, dates, ip, 1);
+                                LoginDetailsPOJO loginDetailsPOJO = new LoginDetailsPOJO(loginData.getLogin_id(),0, dates, ip, 1);
                                 Api.getClient().addLoginDetails(loginDetailsPOJO).enqueue(new Callback<Void>() {
                                     @Override
                                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -188,6 +188,15 @@ public class login extends AppCompatActivity
 //                                        intent.putExtra("id", loginId);
 //
 //                                        startActivity(intent);
+
+                                        Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                                        intent.putExtra("id", loginData.getLogin_id());
+                                        intent.putExtra("email", loginData.getUser_email());
+                                        intent.putExtra("password", loginData.getUser_password());
+                                        intent.putExtra("active",loginData.getIs_active());
+                                        intent.putExtra("type",loginData.getLogin_type());
+                                        startActivity(intent);
+                                        progressDialog.dismiss();
                                     }
 
                                     @Override
@@ -198,16 +207,14 @@ public class login extends AppCompatActivity
                             }
 
                             @Override
-                            public void onFailure(Call<Integer> call, Throwable t) {
+                            public void onFailure(Call<LoginPOJO> call, Throwable t) {
 
                             }
                         });
 
 
 
-                        Intent intent = new Intent(getBaseContext(), HomeActivity.class);
-                        startActivity(intent);
-                        progressDialog.dismiss();
+
                     }else {
                         progressDialog.dismiss();
                         Toast.makeText(getBaseContext(), "Email not found ", Toast.LENGTH_SHORT).show();
@@ -215,7 +222,7 @@ public class login extends AppCompatActivity
 
                 }catch (IllegalStateException e){
                     Toast.makeText(getApplicationContext(), loginData.getLogin_id(), Toast.LENGTH_LONG).show();
-                    Log.d("test", loginData.getLogin_id()+"");
+                    Log.d("test", loginData.getLogin_id()+"    dsfsdfsdffffff");
                 }
 
 

@@ -159,8 +159,8 @@ public class CompanyContacts extends AppCompatActivity {
                         Api.getClient().addLoginDetails(loginDetailsPOJO).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                Log.d("test", loginData.getLogin_id()+"");
                                 Intent intent = new Intent(getBaseContext(), CompleteProfileActivity.class);
+                                Log.d("test", loginData.getLogin_id()+"");
                                 intent.putExtra("id", loginData.getLogin_id());
                                 intent.putExtra("email", loginData.getUser_email());
                                 startActivity(intent);
@@ -168,7 +168,7 @@ public class CompanyContacts extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
-
+                                Log.d("response", "details " + t.getMessage());
                             }
                         });
 
@@ -176,7 +176,7 @@ public class CompanyContacts extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<LoginPOJO> call, Throwable t) {
-
+                        Log.d("response", "login " + t.getMessage());
                     }
                 });
                 progressDialog.dismiss();
@@ -185,7 +185,7 @@ public class CompanyContacts extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                //Log.d("response", t.getMessage().toString());
+                Log.d("response", "register " + t.getMessage());
                 progressDialog.dismiss();
             }
         });

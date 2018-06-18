@@ -1,52 +1,49 @@
 package com.taj51.efazcompany;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.taj51.efazcompany.api_classes.Api;
 import com.taj51.efazcompany.pojo.GetProfilePojo;
-import com.taj51.efazcompany.pojo.ProfilePOJO;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileActivity extends AppCompatActivity {
-
+public class ProfileFragment extends Fragment {
 
 
     private ImageView profileLogo;
-    private TextView  profileCompanyName;
+    private TextView profileCompanyName;
     private TextView  profileCompanyEmail;
     private TextView  profileCompanyService;
     private TextView  profileCompanyWebsite;
 
-
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        Intent intent = getIntent();
-        final int id = intent.getIntExtra("id", 0);
-        final String email = intent.getStringExtra("email");
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_profile, container, false);
+        profileLogo           = (ImageView) view.findViewById(R.id.profile_logo_container);
+        profileCompanyName    = (TextView) view.findViewById(R.id.profile_company_name);
+        profileCompanyEmail   = (TextView) view.findViewById(R.id.profile_company_mail);
+        profileCompanyService = (TextView) view.findViewById(R.id.profile_company_service);
+        profileCompanyWebsite = (TextView) view.findViewById(R.id.profile_company_website);
 
-        profileLogo           = (ImageView) findViewById(R.id.profile_logo_container);
-        profileCompanyName    = (TextView) findViewById(R.id.profile_company_name);
-        profileCompanyEmail   = (TextView) findViewById(R.id.profile_company_mail);
-        profileCompanyService = (TextView) findViewById(R.id.profile_company_service);
-        profileCompanyWebsite = (TextView) findViewById(R.id.profile_company_website);
-
-
-
+        final int id = getArguments().getInt("id");
+        final String email = getArguments().getString("email");
+        Log.d("TestAPI", id+" + "+ email);
 
         Api.getClient().getProfile(id).enqueue(new Callback<GetProfilePojo>() {
             @Override
@@ -59,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
                 profileCompanyEmail.setText(email);
                 profileCompanyService.setText(pojo.getCompany_service_desc());
                 profileCompanyWebsite.setText(pojo.getCompany_website_url());
-                Toast.makeText(getApplicationContext(), pojo.getCompany_name(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), pojo.getCompany_name(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -68,8 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-
-
+        return view;
     }
 
     // method for base64 to bitmap

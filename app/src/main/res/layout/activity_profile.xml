@@ -52,6 +52,7 @@
                         <!--/>-->
                 <!--</LinearLayout>-->
                 <ImageView
+                    android:id="@+id/profile_logo_container"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/efaz_logo"
@@ -194,7 +195,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="#1b193b"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:hint="@string/service_name"
                 android:textColor="#181737"
                 android:maxLength="12"
@@ -232,7 +233,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="#1b193b"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:hint="@string/website"
                 android:textColor="#181737"
                 android:maxLength="12"

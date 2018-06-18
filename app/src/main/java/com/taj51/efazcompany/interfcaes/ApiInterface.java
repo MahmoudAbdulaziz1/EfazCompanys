@@ -1,6 +1,7 @@
 package com.taj51.efazcompany.interfcaes;
 
 import com.taj51.efazcompany.pojo.CategoryPojo;
+import com.taj51.efazcompany.pojo.GetProfilePojo;
 import com.taj51.efazcompany.pojo.LoginDetailsPOJO;
 import com.taj51.efazcompany.pojo.LoginPOJO;
 import com.taj51.efazcompany.pojo.ProfilePOJO;
@@ -50,9 +51,9 @@ public interface ApiInterface {
     Call<Boolean> isLogged(@Body LoginPOJO pojo);
 
     @POST("/login/getLoginId")
-    Call<Integer> getLoggedId(@Body LoginPOJO pojo);
+    Call<LoginPOJO> getLoggedId(@Body LoginPOJO pojo);
 
     @GET("/profile/getProfile/{id}")
-    Call<ProfilePOJO> getProfile(@Path("id") int id);
+    Call<GetProfilePojo> getProfile(@Path("id") int id);
 
 }
