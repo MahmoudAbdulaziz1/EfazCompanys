@@ -54,12 +54,13 @@ public class CompleteProfileActivity extends AppCompatActivity {
     private Spinner spin;
 
     private byte[] image ;
+    private String byts = "";
     private String name = "";
     private String address = "";
     private String category = "";
     private String youtube = "";
     private String website = "";
-    private String byts = "";
+
     private List<CategoryPojo> categoryPojos;
 
 

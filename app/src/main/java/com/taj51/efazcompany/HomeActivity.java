@@ -77,6 +77,8 @@ public class HomeActivity extends AppCompatActivity {
 //                    signOutGoogle();
                     Toast.makeText(getBaseContext(), "signout", Toast.LENGTH_LONG).show();
 
+                }else if (itemId == R.id.add_product){
+                    frag = new AddProductFragment();
                 }
 //                else if (itemId == R.id.add_product){
 //                    frag = new AddProductFragment();

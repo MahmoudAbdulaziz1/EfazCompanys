@@ -33,5 +33,9 @@
     <string name="taj_mail">jobs@taj51.com</string>
     <string name="taj_website">www.taj51.com</string>
     <string name="service_name">خدماتنا هي ...</string>
+    <string name="title">product title</string>
+    <string name="explanation">Product Explanation</string>
+    <string name="save_product">Save Product</string>
+    <string name="cost">Product Cost</string>
 
 </resources>
