@@ -125,21 +125,6 @@ public class AddProductFragment extends Fragment {
         });
 
 
-        Api.getClient().getCompanyOffers().enqueue(new Callback<List<CompanyOfferPOJO>>() {
-            @Override
-            public void onResponse(Call<List<CompanyOfferPOJO>> call, Response<List<CompanyOfferPOJO>> response) {
-                Log.d("test product","1");
-                List<CompanyOfferPOJO> data = response.body();
-                Log.d("test product","2");
-                Toast.makeText(getActivity(), data.get(0).getOffer_expired_date() + "  ", Toast.LENGTH_LONG).show();
-                Log.d("test product","3");
-            }
-
-            @Override
-            public void onFailure(Call<List<CompanyOfferPOJO>> call, Throwable t) {
-                Log.d("test product","4" + t.getMessage());
-            }
-        });
 
         return view;
     }
@@ -249,11 +234,6 @@ public class AddProductFragment extends Fragment {
             productImage.setImageBitmap(bitmap);
             image = encodeTobase64(bitmap);
             byts = Base64.encodeToString(image, Base64.DEFAULT);
-//            SharedPreferences byteImage = getSharedPreferences("byte", MODE_PRIVATE);
-//            SharedPreferences.Editor editor = byteImage.edit();
-//            editor.putString("b", Base64.encodeToString(encodeTobase64(bitmap), Base64.DEFAULT));
-//            editor.commit();
-            //Picasso.with(getBaseContext()).load(filePath).fit().into(img);
 
         }
     }

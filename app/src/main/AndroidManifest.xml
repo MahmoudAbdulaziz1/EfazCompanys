@@ -24,6 +24,7 @@
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".CompleteProfileActivity"/>
         <activity android:name=".HomeActivity"/>
+        <activity android:name=".OfferComponentActivity"/>
     </application>
 
 </manifest>

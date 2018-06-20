@@ -61,11 +61,21 @@ public class HomeActivity extends AppCompatActivity {
                 int itemId = menuItem.getItemId(); // get selected menu item's id
 // check selected menu item's id and replace a Fragment Accordingly
                 if (itemId == R.id.Home) {
-                    frag = new HomeFragment();
-                } else if (itemId == R.id.Profile) {
                     Intent intent = getIntent();
                     Bundle bundle = new Bundle();
                     bundle.putString("", "From Activity");
+                    bundle.putInt("id", intent.getIntExtra("id",0));
+                    bundle.putString("email", intent.getStringExtra("email"));
+                    bundle.putString("password", intent.getStringExtra("password"));
+                    bundle.putInt("active",intent.getIntExtra("active",0));
+                    bundle.putInt("type",intent.getIntExtra("type", 0));
+                    frag = new HomeFragment();
+                    frag.setArguments(bundle);
+
+                } else if (itemId == R.id.Profile) {
+                    Intent intent = getIntent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ss", "From Activity");
                     bundle.putInt("id", intent.getIntExtra("id",0));
                     bundle.putString("email", intent.getStringExtra("email"));
                     bundle.putString("password", intent.getStringExtra("password"));

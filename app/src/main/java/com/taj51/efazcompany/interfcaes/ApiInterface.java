@@ -3,6 +3,7 @@ package com.taj51.efazcompany.interfcaes;
 import com.taj51.efazcompany.pojo.AddCompanyOfferPOJO;
 import com.taj51.efazcompany.pojo.CategoryPojo;
 import com.taj51.efazcompany.pojo.CompanyOfferPOJO;
+import com.taj51.efazcompany.pojo.GetCompanyOfferPOJO;
 import com.taj51.efazcompany.pojo.GetProfilePojo;
 import com.taj51.efazcompany.pojo.LoginDetailsPOJO;
 import com.taj51.efazcompany.pojo.LoginPOJO;
@@ -59,7 +60,7 @@ public interface ApiInterface {
     Call<GetProfilePojo> getProfile(@Path("id") int id);
 
     @GET("/companyOffer/getOffers")
-    Call<List<CompanyOfferPOJO>> getCompanyOffers();
+    Call<List<GetCompanyOfferPOJO>> getCompanyOffers();
 
 
     @POST("/companyOffer/addOffer")
