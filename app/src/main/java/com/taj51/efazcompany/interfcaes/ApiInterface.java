@@ -10,6 +10,7 @@ import com.taj51.efazcompany.pojo.LoginPOJO;
 import com.taj51.efazcompany.pojo.ProfilePOJO;
 import com.taj51.efazcompany.pojo.SignUpPOJO;
 
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,5 +66,8 @@ public interface ApiInterface {
 
     @POST("/companyOffer/addOffer")
     Call<Integer> addCompanyOffer(@Body AddCompanyOfferPOJO pojo);
+
+    @GET("/profile/profileExist/{id}")
+    Call<Integer> CheckProfileExist(@Path("id") int id);
 
 }

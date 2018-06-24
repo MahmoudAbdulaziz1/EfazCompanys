@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.taj51.efazcompany.adapters.CustomAdapter;
 import com.taj51.efazcompany.api_classes.Api;
-import com.taj51.efazcompany.pojo.CompanyOfferPOJO;
 import com.taj51.efazcompany.pojo.GetCompanyOfferPOJO;
 import com.taj51.efazcompany.pojo.GetProfilePojo;
 
@@ -33,14 +32,15 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         // set a GridLayoutManager with default vertical orientation and 2 number of columns
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
         new myAsync().execute();
 
@@ -48,9 +48,10 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public class myAsync extends AsyncTask<Void, Void, List<GetCompanyOfferPOJO>>{
+    public class myAsync extends AsyncTask<Void, Void, List<GetCompanyOfferPOJO>> {
 
         List<GetCompanyOfferPOJO> tempList;
+
         @Override
         protected List<GetCompanyOfferPOJO> doInBackground(Void... voids) {
             Api.getClient().getCompanyOffers().enqueue(new Callback<List<GetCompanyOfferPOJO>>() {
@@ -59,7 +60,7 @@ public class HomeFragment extends Fragment {
 
                     List<GetCompanyOfferPOJO> temp = response.body();
                     tempList = temp;
-                    Log.d("getResponse", tempList.get(1).getOffer_logo() +"");
+                    Log.d("getResponse", tempList.get(1).getOffer_logo() + "");
                     final ArrayList<String> productTitlesArr = new ArrayList<String>();
                     final ArrayList<String> productImagesArr = new ArrayList<String>();
                     final ArrayList<String> daysArr = new ArrayList<String>();
@@ -70,12 +71,12 @@ public class HomeFragment extends Fragment {
                     final ArrayList<String> productExplanation = new ArrayList<String>();
 
 
-                    for (int i = 0 ; i < tempList.size() ; i++ ){
+                    for (int i = 0; i < tempList.size(); i++) {
                         productImagesArr.add(tempList.get(i).getOffer_logo());
                         productTitlesArr.add(tempList.get(i).getOffer_title());
-                        String first  = tempList.get(i).getOffer_display_date();
+                        String first = tempList.get(i).getOffer_display_date();
                         String second = tempList.get(i).getOffer_expired_date();
-                        String third  = tempList.get(i).getOffer_deliver_date();
+                        String third = tempList.get(i).getOffer_deliver_date();
                         productIds.add(tempList.get(i).getOffer_id());
                         productCosts.add(tempList.get(i).getOffer_cost());
                         productExplanation.add(tempList.get(i).getOffer_explaination());
@@ -100,7 +101,7 @@ public class HomeFragment extends Fragment {
                             daysArr.add(String.valueOf(diffDays));
                             hoursArr.add(String.valueOf(diffHours));
                             minutesArr.add(String.valueOf(diffMinutes));
-                        } catch(Exception e) { //this generic but you can control another types of exception
+                        } catch (Exception e) { //this generic but you can control another types of exception
                             // look the origin of excption
                         }
 
@@ -125,12 +126,11 @@ public class HomeFragment extends Fragment {
                     });
 
 
-
                 }
 
                 @Override
                 public void onFailure(Call<List<GetCompanyOfferPOJO>> call, Throwable t) {
-                    Log.d("getResponse", "Error  "+ t.getMessage());
+                    Log.d("getResponse", "Error  " + t.getMessage());
                 }
             });
 
@@ -140,11 +140,11 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(List<GetCompanyOfferPOJO> getCompanyOfferPOJOS) {
             super.onPostExecute(getCompanyOfferPOJOS);
-            if(tempList == null){
+            if (tempList == null) {
                 Toast.makeText(getActivity(), "EMPTY", Toast.LENGTH_LONG).show();
 
-            }else {
-                Toast.makeText(getActivity(), tempList.get(17).getOffer_logo() +"", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), tempList.get(17).getOffer_logo() + "", Toast.LENGTH_LONG).show();
 
             }
         }

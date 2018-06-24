@@ -25,6 +25,7 @@
         <activity android:name=".CompleteProfileActivity"/>
         <activity android:name=".HomeActivity"/>
         <activity android:name=".OfferComponentActivity"/>
+        <activity android:name=".ConfirmationActivity"/>
     </application>
 
 </manifest>

@@ -21,15 +21,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.taj51.efazcompany.api_classes.Api;
 import com.taj51.efazcompany.pojo.AddCompanyOfferPOJO;
-import com.taj51.efazcompany.pojo.CompanyOfferPOJO;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

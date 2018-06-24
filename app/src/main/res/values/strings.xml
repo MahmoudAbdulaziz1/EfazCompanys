@@ -38,4 +38,13 @@
     <string name="save_product">Save Product</string>
     <string name="cost">Product Cost</string>
 
+    <string name="confirmation">Please wait for confirmation of your account.</string>
+    <string name="confirm2">We will send you an email when we confirm your account.</string>
+    <string name="prompt">Select Your Category</string>
+    <string name="org_name">Enter Organization Name</string>
+    <string name="org_add">Enter Organization Address</string>
+    <string name="org_youtube">Enter valid youtube url</string>
+    <string name="email_error">Email not found</string>
+    <string name="password_error">Password not correct</string>
+
 </resources>

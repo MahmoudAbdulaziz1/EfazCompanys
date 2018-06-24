@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,9 +22,9 @@ public class CompanyData extends AppCompatActivity {
         setContentView(R.layout.activity_signup_comapny_data);
 
 
-        companyName = (EditText)findViewById(R.id.organization_name);
-        userName    = (EditText)findViewById(R.id.usrusr);
-        address     = (EditText)findViewById(R.id.address);
+        companyName = (EditText) findViewById(R.id.organization_name);
+        userName = (EditText) findViewById(R.id.usrusr);
+        address = (EditText) findViewById(R.id.address);
 
         next = (TextView) findViewById(R.id.company_data_nxt);
         Intent intent = getIntent();
@@ -35,7 +34,7 @@ public class CompanyData extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(CompanyData.this, CompanyContacts.class);
-                if (validate(companyName) && validate(userName) && validate(address)){
+                if (validate(companyName) && validate(userName) && validate(address)) {
                     it.putExtra("email", mail);
                     it.putExtra("password", password);
                     it.putExtra("company", companyName.getText().toString().trim());

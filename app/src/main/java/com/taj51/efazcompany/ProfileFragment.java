@@ -27,28 +27,35 @@ public class ProfileFragment extends Fragment {
 
     private ImageView profileLogo;
     private TextView profileCompanyName;
-    private TextView  profileCompanyEmail;
-    private TextView  profileCompanyService;
-    private TextView  profileCompanyWebsite;
+    private TextView profileCompanyEmail;
+    private TextView profileCompanyService;
+    private TextView profileCompanyWebsite;
+
+    // method for base64 to bitmap
+    public static Bitmap decodeBase64(String encodedImage) {
+        byte[] decodedByte = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_profile, container, false);
-        profileLogo           = (ImageView) view.findViewById(R.id.profile_logo_container);
-        profileCompanyName    = (TextView) view.findViewById(R.id.profile_company_name);
-        profileCompanyEmail   = (TextView) view.findViewById(R.id.profile_company_mail);
+        profileLogo = (ImageView) view.findViewById(R.id.profile_logo_container);
+        profileCompanyName = (TextView) view.findViewById(R.id.profile_company_name);
+        profileCompanyEmail = (TextView) view.findViewById(R.id.profile_company_mail);
         profileCompanyService = (TextView) view.findViewById(R.id.profile_company_service);
         profileCompanyWebsite = (TextView) view.findViewById(R.id.profile_company_website);
 
         final int id = getArguments().getInt("id");
         final String email = getArguments().getString("email");
-        Log.d("TestAPI", id+" + "+ email);
+        Log.d("TestAPI", id + " + " + email);
 
         Api.getClient().getProfile(id).enqueue(new Callback<GetProfilePojo>() {
             @Override
             public void onResponse(Call<GetProfilePojo> call, Response<GetProfilePojo> response) {
-                Log.d("TestAPI", "hskdjgaskjd   "+id);
+                Log.d("TestAPI", "hskdjgaskjd   " + id);
                 GetProfilePojo pojo = response.body();
                 Log.d("TestAPI", pojo.getCompany_logo_image());
                 profileLogo.setImageBitmap(decodeBase64(pojo.getCompany_logo_image()));
@@ -61,17 +68,10 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<GetProfilePojo> call, Throwable t) {
-                Log.d("TestAPI", t.getMessage()+t.getLocalizedMessage());
+                Log.d("TestAPI", t.getMessage() + t.getLocalizedMessage());
 
             }
         });
         return view;
-    }
-
-    // method for base64 to bitmap
-    public static Bitmap decodeBase64(String encodedImage) {
-        byte[] decodedByte = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory
-                .decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 }

@@ -25,32 +25,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="bottom|center_horizontal">
-                <!--<LinearLayout-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:layout_marginBottom="20dp"-->
-                    <!--&gt;-->
-                    <!--<ImageView-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:layout_width="50dp"-->
-                        <!--android:layout_height="50dp"-->
-                        <!--android:src="@drawable/fb"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:gravity="bottom"-->
-                        <!--/>-->
-                    <!--<customfonts.MyTextView-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:id="@+id/sin"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:text="456 Friends"-->
-                        <!--android:gravity="center"-->
-                        <!--android:textSize="12dp"-->
-                        <!--android:textColor="#85ffffff"-->
-                        <!--/>-->
-                <!--</LinearLayout>-->
+
                 <ImageView
                     android:id="@+id/profile_logo_container"
                     android:layout_width="100dp"
@@ -58,34 +33,6 @@
                     android:src="@drawable/efaz_logo"
                     android:gravity="bottom"
                     android:scaleType="fitXY"/>
-                <!--<LinearLayout-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:layout_marginBottom="20dp"-->
-                    <!--&gt;-->
-                    <!--<ImageView-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:layout_width="50dp"-->
-                        <!--android:layout_height="50dp"-->
-                        <!--android:src="@drawable/twitter"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:gravity="bottom"-->
-
-                        <!--/>-->
-                    <!--<customfonts.MyTextView-->
-                        <!--android:gravity="center"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:id="@+id/sinn"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:text="562 Followings"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:textSize="12dp"-->
-                        <!--android:textColor="#85ffffff"-->
-                        <!--/>-->
-                <!--</LinearLayout>-->
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
@@ -100,21 +47,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
+            <!--<customfonts.MyTextView-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/usrusr"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/company_name"-->
+                <!--android:textColor="#a2a1b8"-->
+                <!--android:maxLength="12"-->
+                <!--android:background="#0000"-->
+                <!--android:padding="16dp"-->
+                <!--android:gravity="left"-->
+                <!--/>-->
             <customfonts.MyTextView
-                android:layout_weight="1"
-                android:id="@+id/usrusr"
-                android:textSize="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/company_name"
-                android:textColor="#a2a1b8"
-                android:maxLength="12"
-                android:background="#0000"
-                android:padding="16dp"
-                android:gravity="left"
-                />
-            <customfonts.MyTextView
-                android:layout_weight="1"
                 android:id="@+id/profile_company_name"
                 android:textSize="16dp"
                 android:layout_width="match_parent"
@@ -122,11 +68,11 @@
                 android:hint="@string/evvaz"
                 android:textColorHint="#181737"
                 android:textColor="#181737"
-                android:maxLength="12"
                 android:background="#0000"
                 android:padding="16dp"
-                android:gravity="right"
-                />
+                android:gravity="left"
+                android:drawablePadding="15dp"
+                android:drawableLeft="@drawable/company"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -137,20 +83,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
+            <!--<customfonts.MyTextView-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/mail"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/email"-->
+                <!--android:textColor="#a2a1b8"-->
+                <!--android:maxLength="12"-->
+                <!--android:background="#0000"-->
+                <!--android:padding="16dp"-->
+                <!--android:gravity="left"/>-->
             <customfonts.MyTextView
-                android:layout_weight="1"
-                android:id="@+id/mail"
-                android:textSize="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/email"
-                android:textColor="#a2a1b8"
-                android:maxLength="12"
-                android:background="#0000"
-                android:padding="16dp"
-                android:gravity="left"/>
-            <customfonts.MyTextView
-                android:layout_weight="1"
                 android:id="@+id/profile_company_mail"
                 android:textSize="16dp"
                 android:layout_width="match_parent"
@@ -158,11 +103,11 @@
                 android:textColorHint="#1b193b"
                 android:hint="@string/taj_mail"
                 android:textColor="#181737"
-                android:maxLength="12"
                 android:background="#0000"
                 android:padding="16dp"
-                android:gravity="right"
-                />
+                android:gravity="left"
+                android:drawableLeft="@drawable/email2"
+                android:drawablePadding="15dp"/>
         </LinearLayout>
         />
         <View
@@ -175,21 +120,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
+            <!--<customfonts.MyTextView-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/pswrd"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/companyService"-->
+                <!--android:textColor="#a2a1b8"-->
+                <!--android:maxLength="12"-->
+                <!--android:background="#0000"-->
+                <!--android:padding="16dp"-->
+                <!--android:gravity="left"-->
+                <!--/>-->
             <customfonts.MyTextView
-                android:layout_weight="1"
-                android:id="@+id/pswrd"
-                android:textSize="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/companyService"
-                android:textColor="#a2a1b8"
-                android:maxLength="12"
-                android:background="#0000"
-                android:padding="16dp"
-                android:gravity="left"
-                />
-            <customfonts.MyTextView
-                android:layout_weight="1"
+
                 android:id="@+id/profile_company_service"
                 android:textSize="16dp"
                 android:layout_width="match_parent"
@@ -198,10 +143,9 @@
                 android:inputType="text"
                 android:hint="@string/service_name"
                 android:textColor="#181737"
-                android:maxLength="12"
                 android:background="#0000"
                 android:padding="16dp"
-                android:gravity="right"
+                android:gravity="center_horizontal"
                 />
         </LinearLayout>
         <View
@@ -213,21 +157,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
+            <!--<customfonts.MyTextView-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/web"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/website"-->
+                <!--android:textColor="#a2a1b8"-->
+                <!--android:maxLength="12"-->
+                <!--android:background="#0000"-->
+                <!--android:padding="16dp"-->
+                <!--android:gravity="left"-->
+                <!--/>-->
             <customfonts.MyTextView
-                android:layout_weight="1"
-                android:id="@+id/web"
-                android:textSize="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/website"
-                android:textColor="#a2a1b8"
-                android:maxLength="12"
-                android:background="#0000"
-                android:padding="16dp"
-                android:gravity="left"
-                />
-            <customfonts.MyTextView
-                android:layout_weight="1"
                 android:id="@+id/profile_company_website"
                 android:textSize="16dp"
                 android:layout_width="match_parent"
@@ -236,47 +179,11 @@
                 android:inputType="text"
                 android:hint="@string/website"
                 android:textColor="#181737"
-                android:maxLength="12"
                 android:background="#0000"
                 android:padding="16dp"
-                android:gravity="right"
-                />
+                android:gravity="left"
+                android:drawableLeft="@drawable/mail"
+                android:drawablePadding="15dp"/>
         </LinearLayout>
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="#dad8d8" />-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--&gt;-->
-            <!--<customfonts.MyTextView-->
-                <!--android:layout_weight="1"-->
-                <!--android:id="@+id/goooogleee"-->
-                <!--android:textSize="16dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Google+"-->
-                <!--android:textColor="#a2a1b8"-->
-                <!--android:maxLength="12"-->
-                <!--android:background="#0000"-->
-                <!--android:padding="16dp"-->
-                <!--android:gravity="left"-->
-                <!--/>-->
-            <!--<customfonts.MyTextView-->
-                <!--android:layout_weight="1"-->
-                <!--android:id="@+id/goooglggeee"-->
-                <!--android:textSize="16dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="Enabled"-->
-                <!--android:textColorHint="#181737"-->
-                <!--android:maxLength="12"-->
-                <!--android:background="#0000"-->
-                <!--android:padding="16dp"-->
-                <!--android:gravity="right"-->
-                <!--/>-->
-        <!--</LinearLayout>-->
     </LinearLayout>
 </RelativeLayout>

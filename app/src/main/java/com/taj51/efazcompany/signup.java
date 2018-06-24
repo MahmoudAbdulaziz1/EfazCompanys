@@ -2,8 +2,8 @@ package com.taj51.efazcompany;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -15,10 +15,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 
-
 public class signup extends AppCompatActivity {
-    private TextView sup,act,sin,fbook;
-    private EditText pswd,cpswd,mail;
+    private TextView sup, act, sin, fbook;
+    private EditText pswd, cpswd, mail;
     private Button next;
     private SharedPreferences save;
     private SharedPreferences visible;
@@ -27,6 +26,9 @@ public class signup extends AppCompatActivity {
     private ImageButton visibleBtn;
     private ImageButton visibleBtn2;
 
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,8 @@ public class signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         visible = getSharedPreferences("pvisible", MODE_PRIVATE);
         save = getSharedPreferences("signup", MODE_PRIVATE);
-        String reEmail     = save.getString("email", "");
-        String rePassword  = save.getString("pass", "");
+        String reEmail = save.getString("email", "");
+        String rePassword = save.getString("pass", "");
         String cRePassword = save.getString("pass2", "");
         SharedPreferences.Editor editor = save.edit();
         editor.putString("email", "");
@@ -43,13 +45,13 @@ public class signup extends AppCompatActivity {
         editor.putString("pass2", "");
         editor.commit();
 
-        sup = (TextView)findViewById(R.id.sup);
-        sin = (TextView)findViewById(R.id.sin);
-        fbook = (TextView)findViewById(R.id.fboook);
-        act = (TextView)findViewById(R.id.act);
-        mail = (EditText)findViewById(R.id.mal);
-        pswd = (EditText)findViewById(R.id.pswd);
-        cpswd = (EditText)findViewById(R.id.cpswd);
+        sup = (TextView) findViewById(R.id.sup);
+        sin = (TextView) findViewById(R.id.sin);
+        fbook = (TextView) findViewById(R.id.fboook);
+        act = (TextView) findViewById(R.id.act);
+        mail = (EditText) findViewById(R.id.mal);
+        pswd = (EditText) findViewById(R.id.pswd);
+        cpswd = (EditText) findViewById(R.id.cpswd);
 
         mail.setText(reEmail);
         pswd.setText(rePassword);
@@ -66,11 +68,9 @@ public class signup extends AppCompatActivity {
                 startActivity(it);
             }
         });
-        sin.setOnClickListener(new View.OnClickListener()
-        {
+        sin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 SharedPreferences.Editor editor2 = save.edit();
                 editor2.putString("email", mail.getText().toString().trim());
                 editor2.putString("pass", pswd.getText().toString().trim());
@@ -85,7 +85,7 @@ public class signup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(signup.this, CompanyData.class);
-                if (validateEmail() && validate(pswd)  && confirmPassword(cpswd) && validateConfirm(pswd, cpswd) ) {
+                if (validateEmail() && validate(pswd) && confirmPassword(cpswd) && validateConfirm(pswd, cpswd)) {
                     it.putExtra("email", mail.getText().toString().trim());
                     it.putExtra("password", pswd.getText().toString().trim());
                     startActivity(it);
@@ -101,14 +101,14 @@ public class signup extends AppCompatActivity {
             public void onClick(View v) {
                 isVisible = visible.getBoolean("v1", false);
 
-                if (isVisible){
+                if (isVisible) {
                     pswd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     SharedPreferences.Editor vi1 = visible.edit();
                     vi1.putBoolean("v1", false);
                     vi1.commit();
                     visibleBtn.setImageDrawable(getResources().getDrawable(R.drawable.show));
 
-                }else {
+                } else {
                     pswd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     SharedPreferences.Editor vi2 = visible.edit();
                     vi2.putBoolean("v1", true);
@@ -127,14 +127,14 @@ public class signup extends AppCompatActivity {
             public void onClick(View v) {
                 isVisible2 = visible.getBoolean("v2", false);
 
-                if (isVisible2){
+                if (isVisible2) {
                     cpswd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     SharedPreferences.Editor vi3 = visible.edit();
                     vi3.putBoolean("v2", false);
                     vi3.commit();
                     visibleBtn2.setImageDrawable(getResources().getDrawable(R.drawable.show));
 
-                }else {
+                } else {
                     cpswd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     SharedPreferences.Editor vi4 = visible.edit();
                     vi4.putBoolean("v2", true);
@@ -154,9 +154,9 @@ public class signup extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (pswd.getText().toString().trim().equals("")){
+                if (pswd.getText().toString().trim().equals("")) {
                     visibleBtn.setEnabled(false);
-                }else {
+                } else {
                     visibleBtn.setEnabled(true);
                 }
             }
@@ -176,9 +176,9 @@ public class signup extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (cpswd.getText().toString().trim().equals("")){
+                if (cpswd.getText().toString().trim().equals("")) {
                     visibleBtn2.setEnabled(false);
-                }else {
+                } else {
                     visibleBtn2.setEnabled(true);
                 }
             }
@@ -192,8 +192,6 @@ public class signup extends AppCompatActivity {
 
     }
 
-
-
     private boolean validateEmail() {
         String email = mail.getText().toString().trim();
 
@@ -206,10 +204,6 @@ public class signup extends AppCompatActivity {
         return true;
     }
 
-    private static boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
     private boolean validate(EditText editText) {
         // check the lenght of the enter data in EditText and give error if its empty
         if (editText.getText().toString().trim().length() >= 8) {
@@ -219,13 +213,12 @@ public class signup extends AppCompatActivity {
         editText.requestFocus();
         return false;
     }
+
     private boolean confirmPassword(EditText editText) {
         // check the lenght of the enter data in EditText and give error if its empty
         if (editText.getText().toString().trim().length() >= 8) {
-            //editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            //editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             return true; // returns true if field is not empty
-        }else if (editText.getText().toString().trim().isEmpty()){
+        } else if (editText.getText().toString().trim().isEmpty()) {
             editText.setError(getResources().getString(R.string.pass_confirm2));
             editText.requestFocus();
             return false;
@@ -253,7 +246,7 @@ public class signup extends AppCompatActivity {
         editor.putString("pass", "");
         editor.putString("pass2", "");
         editor.commit();
-        SharedPreferences s= getSharedPreferences("login", MODE_PRIVATE);
+        SharedPreferences s = getSharedPreferences("login", MODE_PRIVATE);
         SharedPreferences.Editor editor2 = s.edit();
         editor2.putString("email", "");
         editor2.putString("pass", "");

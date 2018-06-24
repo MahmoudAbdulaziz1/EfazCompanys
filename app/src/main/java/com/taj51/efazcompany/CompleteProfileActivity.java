@@ -1,7 +1,6 @@
 package com.taj51.efazcompany;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,13 +21,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.taj51.efazcompany.api_classes.Api;
 import com.taj51.efazcompany.pojo.CategoryPojo;
 import com.taj51.efazcompany.pojo.ProfilePOJO;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +83,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
             public void onResponse(Call<List<CategoryPojo>> call, Response<List<CategoryPojo>> response) {
                 categoryPojos = response.body();
                 List<String> categoryNames = new ArrayList<String>();
-                categoryNames.add("Add Category");
+                categoryNames.add("Select Your Category");
                 for (int i=0 ; i< categoryPojos.size(); i++){
                     categoryNames.add(categoryPojos.get(i).getCategory_name());
                 }
@@ -138,53 +134,95 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
                     }
                 });
-                if (byts.equals("") || name.equals("") || address.equals("") || category.equals("") || website.equals("")){
-                    Toast.makeText(getBaseContext(), "Fill all data please", Toast.LENGTH_LONG).show();
+
+
+
+
+                if (byts.equals("")){
+                    img.setFocusable(true);
+                    Toast.makeText(getBaseContext(), "Select Image Please", Toast.LENGTH_LONG).show();
                 }else {
-                    if (youtube.equals("")){
-                        if (validateWebsite()) {
-                            final int id = intent.getIntExtra("id", 0);
-                            final String email = intent.getStringExtra("email");
-                            ProfilePOJO pojo = new ProfilePOJO(intent.getIntExtra("id", 0), name, Base64.decode(byts, 0),
-                                    address, category, youtube, website);
-                            Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
-                                @Override
-                                public void onResponse(Call<Integer> call, Response<Integer> response) {
-                                    Intent move = new Intent(getBaseContext(), ProfileActivity.class);
-                                    move.putExtra("id", id);
-                                    move.putExtra("email", email);
-                                    startActivity(move);
-                                }
-
-                                @Override
-                                public void onFailure(Call<Integer> call, Throwable t) {
-
-                                }
-                            });
-                        }
+                    if (name.equals("") ){
+                        nameTxt.setError(getResources().getString(R.string.org_name));
+                        nameTxt.requestFocus();
                     }else {
-                        if (validateYoutubeUrl()){
-                            if (validateWebsite()){
-                                ProfilePOJO pojo = new ProfilePOJO(intent.getIntExtra("id", 0), name, Base64.decode(byts, 0),
-                                        address, category, youtube, website);
-                                Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
-                                    @Override
-                                    public void onResponse(Call<Integer> call, Response<Integer> response) {
-                                        Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
-                                        startActivity(intent1);
-                                    }
+                        if (address.equals("")){
+                            addressTxt.setError(getResources().getString(R.string.org_add));
+                            addressTxt.requestFocus();
+                        }else {
+                            if (category.equals("")){
+                                spin.setFocusable(true);
+                                Toast.makeText(getBaseContext(), "Select Category", Toast.LENGTH_LONG).show();
+                            }else {
+                                if (website.equals("")){
+                                    websiteTxt.setError(getResources().getString(R.string.website_error));
+                                    websiteTxt.requestFocus();
+                                }else {
+                                    if (youtube.equals("")){
+                                        if (validateWebsite()) {
+                                            final int id = intent.getIntExtra("id", 0);
+                                            final String email = intent.getStringExtra("email");
+                                            ProfilePOJO pojo = new ProfilePOJO(intent.getIntExtra("id", 0), name, Base64.decode(byts, 0),
+                                                    address, category, youtube, website);
+                                            Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
+                                                @Override
+                                                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                                    Intent move = new Intent(getBaseContext(), ProfileActivity.class);
+                                                    move.putExtra("id", id);
+                                                    move.putExtra("email", email);
+                                                    startActivity(move);
+                                                }
 
-                                    @Override
-                                    public void onFailure(Call<Integer> call, Throwable t) {
+                                                @Override
+                                                public void onFailure(Call<Integer> call, Throwable t) {
+
+                                                }
+                                            });
+                                        }else {
+                                            websiteTxt.setError(getResources().getString(R.string.website_error));
+                                            websiteTxt.requestFocus();
+                                        }
+                                    }else {
+                                        if (validateYoutubeUrl()){
+                                            if (validateWebsite()){
+                                                ProfilePOJO pojo = new ProfilePOJO(intent.getIntExtra("id", 0), name, Base64.decode(byts, 0),
+                                                        address, category, youtube, website);
+                                                Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
+                                                    @Override
+                                                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                                        Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
+                                                        startActivity(intent1);
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<Integer> call, Throwable t) {
+
+                                                    }
+                                                });
+                                            }else {
+                                                websiteTxt.setError(getResources().getString(R.string.website_error));
+                                                websiteTxt.requestFocus();
+                                            }
+
+                                        }else {
+                                            youtubeTxt.setError(getResources().getString(R.string.org_youtube));
+                                            youtubeTxt.requestFocus();
+                                        }
 
                                     }
-                                });
+                                }
                             }
-
                         }
                     }
-
                 }
+
+
+//                if (byts.equals("") || name.equals("") || address.equals("") || category.equals("") || website.equals("")){
+//                    Toast.makeText(getBaseContext(), "Fill all data please", Toast.LENGTH_LONG).show();
+//                }else {
+//
+//
+//                }
 
 
             }

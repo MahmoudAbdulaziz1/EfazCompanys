@@ -3,10 +3,8 @@ package com.taj51.efazcompany;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.taj51.efazcompany.api_classes.Api;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -32,11 +28,18 @@ public class OfferComponentActivity extends AppCompatActivity {
     private TextView explain;
     private TextView cost;
 
+    // method for base64 to bitmap
+    public static Bitmap decodeBase64(String encodedImage) {
+        byte[] decodedByte = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_component);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.offer_component_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.offer_component_toolbar);
         setSupportActionBar(toolbar);
 
         logo = (ImageView) findViewById(R.id.offer_component_image);
@@ -45,14 +48,13 @@ public class OfferComponentActivity extends AppCompatActivity {
         cost = (TextView) findViewById(R.id.offer_component_product_cost);
 
 
-
         Intent intent = getIntent();
-        Toast.makeText(getApplicationContext(), intent.getDoubleExtra("product_cost",0)+ " "+ intent.getStringExtra("product_explain"), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), intent.getDoubleExtra("product_cost", 0) + " " + intent.getStringExtra("product_explain"), Toast.LENGTH_LONG).show();
 
         logo.setImageBitmap(decodeBase64(intent.getStringExtra("product_image")));
         title.setText(intent.getStringExtra("product_title"));
         explain.setText(intent.getStringExtra("product_explain"));
-        cost.setText(intent.getDoubleExtra("product_cost",0)+"");
+        cost.setText(intent.getDoubleExtra("product_cost", 0) + "");
 
         final Handler seekBarHandler = new Handler(); // must be created in the same thread that created the SeekBar
         final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar2);
@@ -76,7 +78,7 @@ public class OfferComponentActivity extends AppCompatActivity {
 
             // you should define max in xml, but if you need to do this by code, you must set max as 0 and then your desired value. this is because a bug in SeekBar (issue 12945) (don't really checked if it was corrected)
             seekBar.setMax(0);
-            seekBar.setMax((int)diffMinutes);
+            seekBar.setMax((int) diffMinutes);
             seekBar.setProgress(1);
 
             seekBarHandler.post(new Runnable() {
@@ -88,14 +90,12 @@ public class OfferComponentActivity extends AppCompatActivity {
                         java.sql.Timestamp display = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
                         long t = display.getTime();
                         long diff2 = milliseconds2 - t;
-                        long min2 = diff2 / (60*1000);
+                        long min2 = diff2 / (60 * 1000);
                         long a = diffMinutes - diff2;
                         seekBar.setProgress((int) a);
                     }
                 }
             });
-
-
 
 
         } catch (ParseException e) {
@@ -110,14 +110,6 @@ public class OfferComponentActivity extends AppCompatActivity {
         });
 
 
-    }
-
-
-    // method for base64 to bitmap
-    public static Bitmap decodeBase64(String encodedImage) {
-        byte[] decodedByte = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory
-                .decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
 
