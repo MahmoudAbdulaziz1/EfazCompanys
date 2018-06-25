@@ -20,6 +20,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiInterface {
@@ -63,11 +64,26 @@ public interface ApiInterface {
     @GET("/companyOffer/getOffers")
     Call<List<GetCompanyOfferPOJO>> getCompanyOffers();
 
+    @GET("/companyOffer/getOffers/{id}")
+    Call<List<GetCompanyOfferPOJO>> getSingleCompanyOffers(@Path("id") int id);
+    @GET("/companyOffer/getOffer/{id}")
+    Call<GetCompanyOfferPOJO> getSingleCompanyOffer(@Path("id") int id);
+
+    @PUT("/companyOffer/updateOffer")
+    Call<Integer> updateCompanyOffer(@Body AddCompanyOfferPOJO model);
+
+    @PUT("/companyOffer/deleteOffer/{id}")
+    Call<Integer> deleteCompanyOffer(@Path("id") int id);
 
     @POST("/companyOffer/addOffer")
     Call<Integer> addCompanyOffer(@Body AddCompanyOfferPOJO pojo);
 
     @GET("/profile/profileExist/{id}")
     Call<Integer> CheckProfileExist(@Path("id") int id);
+
+    @PUT("/login/activeUser/{id}")
+    Call<Void> activeLogin(@Path("id") int id);
+    @PUT("/login/inActiveUser/{id}")
+    Call<Void> inActiveLogin(@Path("id") int id);
 
 }

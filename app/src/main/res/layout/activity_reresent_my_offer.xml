@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d4d3d3">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#d4d3d3">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_offer_component_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            app:navigationIcon="@drawable/navmenu"
+            app:title="@string/app_name">
+
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
+
+            <SeekBar
+                android:id="@+id/my_seekBar2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="18dp"
+                android:max="200"
+                android:progress="70"
+                android:progressTint="#388e3c"
+                android:progressBackgroundTint="#f4511e"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/my_display_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018-02-11"
+                android:layout_below="@id/my_seekBar2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:id="@+id/my_offer_component_expire_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018-02-12"
+                android:layout_below="@id/my_seekBar2"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignRight="@+id/my_seekBar2"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/my_offer_component_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/efaz_logo"
+            android:scaleType="fitXY"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#ffffff"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="#ffffff"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/my_offer_component_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:text="offer Name"
+                android:layout_marginLeft="20dp"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/my_offer_component_product_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="right"
+                android:text="price"
+                android:textSize="15sp"
+                android:layout_weight="2"
+                android:layout_marginRight="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:background="#ffffff">
+            <TextView
+                android:id="@+id/my_offer_component_product_explain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/app_name"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:padding="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:layout_marginTop="20dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="5dp"
+                android:elevation="8dp"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="#d4d3d3"
+                app:cardBackgroundColor="#d4d3d3"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp">
+                <Button
+                    android:id="@+id/update_offer"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="UPDATE"/>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="5dp"
+                android:elevation="8dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#d4d3d3"
+                app:cardBackgroundColor="#d4d3d3"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp">
+                <Button
+                    android:id="@+id/delete_offer"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delete"
+                    />
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="vertical"
+            android:background="#d4d3d3">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

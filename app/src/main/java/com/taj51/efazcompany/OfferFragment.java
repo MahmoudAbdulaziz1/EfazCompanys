@@ -1,7 +1,5 @@
 package com.taj51.efazcompany;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.taj51.efazcompany.adapters.CustomAdapter;
+import com.taj51.efazcompany.adapters.MyOfferCustomAdapter;
 import com.taj51.efazcompany.api_classes.Api;
 import com.taj51.efazcompany.pojo.GetCompanyOfferPOJO;
 import com.taj51.efazcompany.pojo.GetProfilePojo;
@@ -32,30 +31,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment {
+public class OfferFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private TextView noOffers;
-    SharedPreferences prf;
+    private TextView noOffersTxt;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        prf = getActivity().getSharedPreferences("h_ids", Context.MODE_PRIVATE);
-        int t = prf.getInt("id",0);
-        if (t==0){
-            SharedPreferences.Editor edit = prf.edit();
-            edit.putInt("id", getArguments().getInt("id"));
-            edit.commit();
-        }
+        View view = inflater.inflate(R.layout.fragments_offer, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        noOffers = (TextView)view.findViewById(R.id.no_offers_txt_h);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView2);
+        noOffersTxt = (TextView) view.findViewById(R.id.no_offers_txt);
         // set a GridLayoutManager with default vertical orientation and 2 number of columns
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
         new myAsync().execute();
+        int apiId = getArguments().getInt("id");
+        Toast.makeText(getActivity(), apiId + " asdsad", Toast.LENGTH_LONG).show();
 
         return view;
     }
@@ -67,15 +60,16 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected List<GetCompanyOfferPOJO> doInBackground(Void... voids) {
-            Api.getClient().getCompanyOffers().enqueue(new Callback<List<GetCompanyOfferPOJO>>() {
+            int apiId = getArguments().getInt("id");
+            Api.getClient().getSingleCompanyOffers(apiId).enqueue(new Callback<List<GetCompanyOfferPOJO>>() {
                 @Override
                 public void onResponse(Call<List<GetCompanyOfferPOJO>> call, Response<List<GetCompanyOfferPOJO>> response) {
 
                     List<GetCompanyOfferPOJO> temp = response.body();
                     tempList = temp;
-                    if (tempList.size()>0) {
-                        noOffers.setVisibility(View.GONE);
-                        Log.d("getResponse", tempList.get(1).getOffer_logo() + "");
+                    if (tempList.size() > 0) {
+                        noOffersTxt.setVisibility(View.GONE);
+                        //Log.d("getResponse", tempList.get(1).getOffer_logo() + "");
                         final ArrayList<String> productTitlesArr = new ArrayList<String>();
                         final ArrayList<String> productImagesArr = new ArrayList<String>();
                         final ArrayList<String> daysArr = new ArrayList<String>();
@@ -123,15 +117,12 @@ public class HomeFragment extends Fragment {
                         }
 
                         int companyId = getArguments().getInt("id");
-                        //int num = getIntent().getIntExtra("id", 0);
-                        if (companyId == 0)
-                            companyId = prf.getInt("id", 0);
                         Api.getClient().getProfile(companyId).enqueue(new Callback<GetProfilePojo>() {
                             @Override
                             public void onResponse(Call<GetProfilePojo> call, Response<GetProfilePojo> response) {
                                 String companyLogo = response.body().getCompany_logo_image();
                                 String companyName = response.body().getCompany_name();
-                                CustomAdapter adapter = new CustomAdapter(getActivity(), companyLogo, companyName, productTitlesArr,
+                                MyOfferCustomAdapter adapter = new MyOfferCustomAdapter(getActivity(), companyLogo, companyName, productTitlesArr,
                                         productImagesArr, daysArr, hoursArr, minutesArr, productIds, productCosts, productExplanation);
                                 recyclerView.setAdapter(adapter);
 
@@ -142,8 +133,8 @@ public class HomeFragment extends Fragment {
 
                             }
                         });
-                    }else {
-                        noOffers.setVisibility(View.VISIBLE);
+                    }else{
+                        noOffersTxt.setVisibility(View.VISIBLE);
                     }
 
 
@@ -162,10 +153,10 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(List<GetCompanyOfferPOJO> getCompanyOfferPOJOS) {
             super.onPostExecute(getCompanyOfferPOJOS);
 //            if (tempList == null) {
-//                Toast.makeText(getActivity(), "EMPTY", Toast.LENGTH_LONG).show();
+//                //Toast.makeText(getActivity(), "EMPTY", Toast.LENGTH_LONG).show();
 //
 //            } else {
-//                Toast.makeText(getActivity(), tempList.get(17).getOffer_logo() + "", Toast.LENGTH_LONG).show();
+//                //Toast.makeText(getActivity(), tempList.get(17).getOffer_logo() + "", Toast.LENGTH_LONG).show();
 //
 //            }
         }

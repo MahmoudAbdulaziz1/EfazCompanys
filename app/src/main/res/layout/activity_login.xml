@@ -110,12 +110,21 @@
         android:textSize="16dp"
         android:textColor="#fff"
         />
-    <customfonts.MyTextView
-        android:id="@+id/act"
-        android:layout_width="wrap_content"
+
+    <CheckBox
+        android:id="@+id/remmeberMe"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Don't have an account?"
-        android:textSize="16dp"
-        android:layout_gravity="center" />
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:text="Remmber Me"/>
+
+    <!--<customfonts.MyTextView-->
+        <!--android:id="@+id/act"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:text="Don't have an account?"-->
+        <!--android:textSize="16dp" />-->
 </LinearLayout>
 </ScrollView>

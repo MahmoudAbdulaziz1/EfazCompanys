@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -33,18 +34,31 @@ import retrofit2.Response;
 
 public class login extends AppCompatActivity {
     private LoginPOJO loginData;
-    private TextView fbook, acc, sin, sup, login;
+    private TextView fbook,  sin, sup, login;//acc,
     private EditText mal, pswd;
     private SharedPreferences save;
     private SharedPreferences visible;
+    SharedPreferences remPreference;
     private boolean isVisible;
     private ImageButton visibleBtn;
+    private CheckBox remmeberMe;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        remPreference = getSharedPreferences("remmber", MODE_PRIVATE);
+        boolean remmberBool = remPreference.getBoolean("remm", false);
+
+        if (remmberBool){
+            String email = remPreference.getString("email", "").trim();
+            String password = remPreference.getString("password", "").trim();
+            logIn(email, password, 1, 0);
+            //Toast.makeText(getApplicationContext(), email+ " remmber "+ password, Toast.LENGTH_LONG).show();
+        }
+
         save = getSharedPreferences("login", MODE_PRIVATE);
         visible = getSharedPreferences("visible", MODE_PRIVATE);
         String reEmail = save.getString("email", "");
@@ -57,10 +71,10 @@ public class login extends AppCompatActivity {
         sin = (TextView) findViewById(R.id.sin);
         login = (TextView) findViewById(R.id.sinnp);
         fbook = (TextView) findViewById(R.id.fboook);
-        acc = (TextView) findViewById(R.id.act);
+        //acc = (TextView) findViewById(R.id.act);
         mal = (EditText) findViewById(R.id.mal);
         pswd = (EditText) findViewById(R.id.pswd);
-
+        remmeberMe = (CheckBox) findViewById(R.id.remmeberMe);
 
         mal.setText(reEmail);
         pswd.setText(rePassword);
@@ -75,17 +89,17 @@ public class login extends AppCompatActivity {
                 startActivity(it);
             }
         });
-        acc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(login.this, signup.class);
-                SharedPreferences.Editor editor2 = save.edit();
-                editor2.putString("email", mal.getText().toString().trim().toLowerCase());
-                editor2.putString("pass", pswd.getText().toString().trim());
-                editor2.commit();
-                startActivity(it);
-            }
-        });
+//        acc.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent it = new Intent(login.this, signup.class);
+//                SharedPreferences.Editor editor2 = save.edit();
+//                editor2.putString("email", mal.getText().toString().trim().toLowerCase());
+//                editor2.putString("pass", pswd.getText().toString().trim());
+//                editor2.commit();
+//                startActivity(it);
+//            }
+//        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,7 +172,7 @@ public class login extends AppCompatActivity {
     }
 
 
-    public void logIn(String user_email, String user_password, int is_active, final int login_type) {
+    public void logIn(final String user_email, final String user_password, int is_active, final int login_type) {
 
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(login.this);
@@ -199,11 +213,24 @@ public class login extends AppCompatActivity {
                                             Api.getClient().addLoginDetails(loginDetailsPOJO).enqueue(new Callback<Void>() {
                                                 @Override
                                                 public void onResponse(Call<Void> call, Response<Void> response) {
+                                                    SharedPreferences.Editor editor = remPreference.edit();
+                                                    editor.putBoolean("remm", remmeberMe.isChecked());
+                                                    editor.putString("email", loginData.getUser_email());
+                                                    editor.putString("password", user_password);
+                                                    //editor2.putString("pass", pswd.getText().toString().trim());
+                                                    editor.commit();
 
-//                                        Intent intent = new Intent(getBaseContext(), CompleteProfileActivity.class);
-//                                        intent.putExtra("id", loginId);
-//
-//                                        startActivity(intent);
+                                                    Api.getClient().activeLogin(loginData.getLogin_id()).enqueue(new Callback<Void>() {
+                                                        @Override
+                                                        public void onResponse(Call<Void> call, Response<Void> response) {
+                                                            Log.d("active", "response");
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(Call<Void> call, Throwable t) {
+                                                            Log.d("active", "fail");
+                                                        }
+                                                    });
 
                                                     Intent intent = new Intent(getBaseContext(), HomeActivity.class);
                                                     intent.putExtra("id", loginData.getLogin_id());
@@ -227,6 +254,11 @@ public class login extends AppCompatActivity {
                                             Log.d("test", loginData.getLogin_id() + "");
                                             intent.putExtra("id", loginData.getLogin_id());
                                             intent.putExtra("email", loginData.getUser_email());
+                                            SharedPreferences.Editor editor = remPreference.edit();
+                                            editor.putBoolean("remm", true);
+                                            editor.putString("email", loginData.getUser_email());
+                                            editor.putString("password", loginData.getUser_password());
+                                            editor.commit();
                                             startActivity(intent);
                                             progressDialog.dismiss();
                                         }
