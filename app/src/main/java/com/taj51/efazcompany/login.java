@@ -188,7 +188,13 @@ public class login extends AppCompatActivity {
 
 
                 try {
-                    boolean isFound = response.body();
+                    boolean isFound;
+                    if (response.body() == null){
+                        isFound = false;
+                    }else {
+                        isFound = response.body();
+                    }
+
                     if (isFound) {
 
 
@@ -281,8 +287,8 @@ public class login extends AppCompatActivity {
 
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Email not found ", Toast.LENGTH_SHORT).show();
-                        pswd.setError(getResources().getString(R.string.password_error));
+                        Toast.makeText(getBaseContext(), "Email not found Or may be not Conformed", Toast.LENGTH_LONG).show();
+                        //pswd.setError(getResources().getString(R.string.password_error));
                         pswd.requestFocus();
                     }
 

@@ -29,9 +29,10 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
+    SharedPreferences prf;
     private Toolbar toolbar;
     private DrawerLayout dLayout;
-    SharedPreferences prf;
+    //private FragmentTransaction transaction;
 
     // method for base64 to bitmap
     public static Bitmap decodeBase64(String encodedImage) {
@@ -48,26 +49,29 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar); // Setting/replace toolbar as the ActionBar4
         toolbar.setTitle(getResources().getString(R.string.app_name)); // setting a title for this Toolbar
         prf = getSharedPreferences("ids", MODE_PRIVATE);
-        int t = prf.getInt("id",0);
-        if (t==0){
+        //transaction = getSupportFragmentManager().beginTransaction();
+        int t = prf.getInt("id", 0);
+        if (t == 0) {
             SharedPreferences.Editor edit = prf.edit();
             edit.putInt("id", getIntent().getIntExtra("id", 0));
             edit.commit();
         }
 
-//        android.support.v4.app.FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-//        Intent intent = getIntent();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("", "From Activity");
-//        bundle.putInt("id", intent.getIntExtra("id", 0));
-//        bundle.putString("email", intent.getStringExtra("email"));
-//        bundle.putString("password", intent.getStringExtra("password"));
-//        bundle.putInt("active", intent.getIntExtra("active", 0));
-//        bundle.putInt("type", intent.getIntExtra("type", 0));
-//        Fragment frag = new HomeFragment();
-//        frag.setArguments(bundle);
-//        tx.replace(R.id.frame, frag);
-//        tx.commit();
+
+        Intent intentData = getIntent();
+        Bundle bundleData = new Bundle();
+        bundleData.putString("", "From Activity");
+        bundleData.putInt("id", intentData.getIntExtra("id", 0));
+        bundleData.putString("email", intentData.getStringExtra("email"));
+        bundleData.putString("password", intentData.getStringExtra("password"));
+        bundleData.putInt("active", intentData.getIntExtra("active", 0));
+        bundleData.putInt("type", intentData.getIntExtra("type", 0));
+        Fragment frag = new HomeFragment();
+        frag.setArguments(bundleData);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, frag); // replace a Fragment with Frame Layout
+        transaction.commit(); // commit the changes
+
         setNavigationDrawer();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +113,12 @@ public class HomeActivity extends AppCompatActivity {
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Fragment frag = null; // create a Fragment Object
+
+
+                Fragment frag = null;
+
+
+                //Fragment frag = null; // create a Fragment Object
                 int itemId = menuItem.getItemId(); // get selected menu item's id
 // check selected menu item's id and replace a Fragment Accordingly
                 if (itemId == R.id.Home) {
@@ -142,6 +151,17 @@ public class HomeActivity extends AppCompatActivity {
                     bundle.putInt("type", intent.getIntExtra("type", 0));
                     frag = new ProfileFragment();
                     frag.setArguments(bundle);
+                } else if (itemId == R.id.update_profile) {
+                    Intent intent = getIntent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ss", "From Activity");
+                    bundle.putInt("id", intent.getIntExtra("id", 0));
+                    bundle.putString("email", intent.getStringExtra("email"));
+                    bundle.putString("password", intent.getStringExtra("password"));
+                    bundle.putInt("active", intent.getIntExtra("active", 0));
+                    bundle.putInt("type", intent.getIntExtra("type", 0));
+                    frag = new UpdateCompanyProfileActivity();
+                    frag.setArguments(bundle);
                 } else if (itemId == R.id.SignOut) {
 
                     SharedPreferences remPreference = getSharedPreferences("remmber", MODE_PRIVATE);
@@ -172,11 +192,7 @@ public class HomeActivity extends AppCompatActivity {
                     frag.setArguments(bundle);
 
                 }
-//                else if (itemId == R.id.add_product){
-//                    frag = new AddProductFragment();
-//                }
-// display a toast message with menu item's title
-                //Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+
                 if (frag != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame, frag); // replace a Fragment with Frame Layout
@@ -184,7 +200,9 @@ public class HomeActivity extends AppCompatActivity {
                     dLayout.closeDrawers(); // close the all open Drawer Views
                     return true;
                 }
-                return false;
+
+              return false;
+
             }
         });
     }

@@ -22,13 +22,20 @@
             android:icon="@drawable/nav_profile"
             android:title="Profile" />
     </group>
+
     <group android:id="@+id/group4" android:checkableBehavior="single">
+        <item
+            android:id="@+id/update_profile"
+            android:icon="@drawable/acc"
+            android:title="Update Profile" />
+    </group>
+    <group android:id="@+id/group5" android:checkableBehavior="single">
         <item
             android:id="@+id/add_product"
             android:icon="@drawable/add"
             android:title="Add Product" />
     </group>
-    <group android:id="@+id/group5"  android:checkableBehavior="single">
+    <group android:id="@+id/group6"  android:checkableBehavior="single">
         <item
             android:id="@+id/SignOut"
             android:icon="@drawable/signout"

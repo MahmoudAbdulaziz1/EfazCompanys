@@ -108,8 +108,7 @@
         android:gravity="center"
         android:text="Sign In"
         android:textSize="16dp"
-        android:textColor="#fff"
-        />
+        android:textColor="#fff" />
 
     <CheckBox
         android:id="@+id/remmeberMe"
@@ -117,14 +116,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginRight="70dp"
-        android:text="Remmber Me"/>
+        android:text="Remmber Me"
+        android:checked="true"/>
 
-    <!--<customfonts.MyTextView-->
-        <!--android:id="@+id/act"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:text="Don't have an account?"-->
-        <!--android:textSize="16dp" />-->
 </LinearLayout>
 </ScrollView>

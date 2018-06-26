@@ -134,8 +134,10 @@ public class UpdateOfferActivity extends AppCompatActivity {
 //                                    } else {
 
                                     new myAsync().execute();
-//                                    startActivity(new Intent(getBaseContext(), HomeActivity.class));
-                                    finish();
+                                    Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                                    intent.putExtra("id", companyId);
+                                    startActivity(intent);
+
 
                                     //}
                                 }

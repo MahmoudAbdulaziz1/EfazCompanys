@@ -89,6 +89,7 @@ public class OfferFragment extends Fragment {
                             productIds.add(tempList.get(i).getOffer_id());
                             productCosts.add(tempList.get(i).getOffer_cost());
                             productExplanation.add(tempList.get(i).getOffer_explaination());
+
                             try {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 //                            Date parsedDate = dateFormat.parse(first);
@@ -116,13 +117,13 @@ public class OfferFragment extends Fragment {
 
                         }
 
-                        int companyId = getArguments().getInt("id");
+                        final int companyId = getArguments().getInt("id");
                         Api.getClient().getProfile(companyId).enqueue(new Callback<GetProfilePojo>() {
                             @Override
                             public void onResponse(Call<GetProfilePojo> call, Response<GetProfilePojo> response) {
                                 String companyLogo = response.body().getCompany_logo_image();
                                 String companyName = response.body().getCompany_name();
-                                MyOfferCustomAdapter adapter = new MyOfferCustomAdapter(getActivity(), companyLogo, companyName, productTitlesArr,
+                                MyOfferCustomAdapter adapter = new MyOfferCustomAdapter(getActivity(), companyId ,companyLogo, companyName, productTitlesArr,
                                         productImagesArr, daysArr, hoursArr, minutesArr, productIds, productCosts, productExplanation);
                                 recyclerView.setAdapter(adapter);
 

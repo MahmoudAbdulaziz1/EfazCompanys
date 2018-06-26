@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/cover_u"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="25dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/backgrd" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="116dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="100dp"
+                        android:layout_height="100dp">
+                        <!--</LinearLayout>-->
+                        <ImageView
+                            android:id="@+id/addProfile_u"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/border"
+                            android:gravity="bottom|center"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/profile" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|right"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:id="@+id/editImageBtn_u"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:background="#8fffffff"
+                                android:src="@drawable/image2" />
+
+                            <customfonts.MyTextView
+                                android:id="@+id/edit_u"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="#0000"
+                                android:gravity="right"
+                                android:hint="@string/edit"
+                                android:maxLength="12"
+                                android:padding="2dp"
+                                android:textColor="#181737"
+                                android:textColorHint="#181737"
+                                android:textSize="10dp" />
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_u"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/cover_u"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <customfonts.MyEditText
+                    android:id="@+id/profile_name_u"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:background="#f0f0f4"
+                    android:drawableLeft="@drawable/company"
+                    android:drawablePadding="16dp"
+                    android:hint="@string/organization_name"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:textColor="#000" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <customfonts.MyEditText
+                    android:id="@+id/profile_address_u"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:background="#f0f0f4"
+                    android:drawableLeft="@drawable/address"
+                    android:drawablePadding="16dp"
+                    android:hint="@string/address"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:textColor="#000" />
+            </LinearLayout>
+            />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <Spinner
+                    android:id="@+id/category_spinner_u"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:background="#f0f0f4"
+                    android:ellipsize="middle"
+                    android:padding="12dp"
+                    android:paddingTop="5dp"
+                    android:textColor="#000"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <customfonts.MyEditText
+                    android:id="@+id/profile_youtube_u"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:background="#f0f0f4"
+                    android:drawableLeft="@drawable/youtube"
+                    android:drawablePadding="16dp"
+                    android:hint="@string/youtube"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:textColor="#000" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <customfonts.MyEditText
+                    android:id="@+id/profile_website_u"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:background="#f0f0f4"
+                    android:drawableLeft="@drawable/email"
+                    android:drawablePadding="16dp"
+                    android:hint="@string/website"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:textColor="#000" />
+            </LinearLayout>
+
+            <customfonts.MyRegulerText
+                android:id="@+id/profile_btn_u"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:background="@drawable/btnformate"
+                android:gravity="center"
+                android:padding="14dp"
+                android:text="@string/update_product"
+                android:textAlignment="center"
+                android:textColor="#fff"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

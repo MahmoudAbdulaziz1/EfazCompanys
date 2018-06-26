@@ -37,6 +37,10 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("/login/loginUser")
     Call<LoginPOJO>login(@Body LoginPOJO loginPOJO);
+    @GET("/profile/getProfile/{id}")
+    Call<GetProfilePojo> getProfile(@Path("id") int id);
+    @PUT("/profile/updateProfile")
+    Call<Integer>updateProfile(@Body ProfilePOJO pojo);
 
     @Headers("Content-Type: application/json")
     @POST("/profile/addProfile")
@@ -58,16 +62,18 @@ public interface ApiInterface {
     @POST("/login/getLoginId")
     Call<LoginPOJO> getLoggedId(@Body LoginPOJO pojo);
 
-    @GET("/profile/getProfile/{id}")
-    Call<GetProfilePojo> getProfile(@Path("id") int id);
+
 
     @GET("/companyOffer/getOffers")
     Call<List<GetCompanyOfferPOJO>> getCompanyOffers();
+    @GET("/companyOffer/getData/{id}")
+    Call<List<String>> getCompanyOfferData(@Path("id") int id);
 
     @GET("/companyOffer/getOffers/{id}")
     Call<List<GetCompanyOfferPOJO>> getSingleCompanyOffers(@Path("id") int id);
     @GET("/companyOffer/getOffer/{id}")
     Call<GetCompanyOfferPOJO> getSingleCompanyOffer(@Path("id") int id);
+
 
     @PUT("/companyOffer/updateOffer")
     Call<Integer> updateCompanyOffer(@Body AddCompanyOfferPOJO model);

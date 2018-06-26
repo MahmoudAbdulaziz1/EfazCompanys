@@ -31,20 +31,22 @@
             android:layout_height="wrap_content"
             android:background="#ffffff">
 
-            <SeekBar
+
+
+            <ProgressBar
                 android:id="@+id/seekBar2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="18dp"
-                android:max="200"
-                android:progress="70"
-                android:progressTint="#388e3c"
-                android:progressBackgroundTint="#f4511e"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:progressDrawable="@drawable/progress_back"/>
 
             <TextView
                 android:id="@+id/display_date"

@@ -48,4 +48,7 @@
     <string name="password_error">Password not correct</string>
     <string name="no_offer">No Offers For Your Company.</string>
     <string name="no_offers">No Offers Added.</string>
+    <string name="update_profile">Update</string>
+    <string name="available">Available</string>
+    <string name="closed">Closed</string>
 </resources>
