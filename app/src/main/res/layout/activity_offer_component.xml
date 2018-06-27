@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:navigationIcon="@drawable/navmenu"
             app:title="@string/app_name">
 
         </android.support.v7.widget.Toolbar>

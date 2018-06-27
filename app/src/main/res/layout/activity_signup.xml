@@ -142,13 +142,13 @@
         android:textSize="16dp"
         android:textColor="#fff"
         />
-    <customfonts.MyTextView
-        android:id="@+id/fboook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/haveEmail"
-        android:textSize="16dp"
-        android:layout_gravity="center" />
+    <!--<customfonts.MyTextView-->
+        <!--android:id="@+id/fboook"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:text="@string/haveEmail"-->
+        <!--android:textSize="16dp"-->
+        <!--android:layout_gravity="center" />-->
 </LinearLayout>
 </ScrollView>

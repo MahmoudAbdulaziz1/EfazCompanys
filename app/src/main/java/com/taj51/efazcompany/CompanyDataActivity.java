@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class CompanyData extends AppCompatActivity {
+public class CompanyDataActivity extends AppCompatActivity {
 
 
     private TextView next;
@@ -33,7 +33,7 @@ public class CompanyData extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(CompanyData.this, CompanyContacts.class);
+                Intent it = new Intent(CompanyDataActivity.this, CompanyContactsActivity.class);
                 if (validate(companyName) && validate(userName) && validate(address)) {
                     it.putExtra("email", mail);
                     it.putExtra("password", password);

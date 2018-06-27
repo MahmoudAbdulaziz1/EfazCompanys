@@ -63,12 +63,12 @@ public class MyOfferComponentActivity extends AppCompatActivity {
         update = (Button) findViewById(R.id.update_offer);
         delete = (Button) findViewById(R.id.delete_offer);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "test nav", Toast.LENGTH_LONG).show();
-            }
-        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getBaseContext(), "test nav", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
 
     }
@@ -107,6 +107,10 @@ public class MyOfferComponentActivity extends AppCompatActivity {
                             final long milliseconds2 = timestamp2.getTime();
                             long diff = milliseconds2 - milliseconds1;
                             long diffDays = diff / (24 * 60 * 60 * 1000);
+                            long rem = diff % (24 * 60 * 60 * 1000);
+                            long diffHours = rem / (60 * 60 * 1000);
+                            long rem2 = rem % (60 * 60 * 1000);
+                            long diffMinutes = rem2 / (60 * 1000);
                             ProgressBar seekBar = (ProgressBar) findViewById(R.id.my_seekBar2);
                             seekBar.setMax(0);
                             seekBar.setMax((int) diffDays);
@@ -201,6 +205,7 @@ public class MyOfferComponentActivity extends AppCompatActivity {
                         dialog.dismiss();
                         Intent intent = new Intent(getBaseContext(), HomeActivity.class);
                         intent.putExtra("id", getIntent().getIntExtra("company_id", 0) + "");
+                        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
 
                     }

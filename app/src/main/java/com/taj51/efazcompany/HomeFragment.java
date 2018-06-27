@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SignalStrength;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView noOffers;
     SharedPreferences prf;
+    private int companyId2 = 0;
 
     @Nullable
     @Override
@@ -84,6 +86,8 @@ public class HomeFragment extends Fragment {
                         final ArrayList<Integer> productIds = new ArrayList<Integer>();
                         final ArrayList<Double> productCosts = new ArrayList<Double>();
                         final ArrayList<String> productExplanation = new ArrayList<String>();
+                        final ArrayList<Integer> companyIds = new ArrayList<Integer>();
+                        //final ArrayList<String> companyLogos = new ArrayList<String>();
 
 
                         for (int i = 0; i < tempList.size(); i++) {
@@ -95,6 +99,7 @@ public class HomeFragment extends Fragment {
                             productIds.add(tempList.get(i).getOffer_id());
                             productCosts.add(tempList.get(i).getOffer_cost());
                             productExplanation.add(tempList.get(i).getOffer_explaination());
+                            companyIds.add(tempList.get(i).getCompany_id());
                             try {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 //                            Date parsedDate = dateFormat.parse(first);
@@ -124,24 +129,34 @@ public class HomeFragment extends Fragment {
 
                         int companyId = getArguments().getInt("id");
                         //int num = getIntent().getIntExtra("id", 0);
-                        if (companyId == 0)
+                        if (companyId == 0) {
                             companyId = prf.getInt("id", 0);
-                        Api.getClient().getProfile(companyId).enqueue(new Callback<GetProfilePojo>() {
-                            @Override
-                            public void onResponse(Call<GetProfilePojo> call, Response<GetProfilePojo> response) {
-                                String companyLogo = response.body().getCompany_logo_image();
-                                String companyName = response.body().getCompany_name();
-                                CustomAdapter adapter = new CustomAdapter(getActivity(), companyLogo, companyName, productTitlesArr,
-                                        productImagesArr, daysArr, hoursArr, minutesArr, productIds, productCosts, productExplanation);
-                                recyclerView.setAdapter(adapter);
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<GetProfilePojo> call, Throwable t) {
-
-                            }
-                        });
+                            companyId2 = companyId;
+                            CustomAdapter adapter = new CustomAdapter(getActivity(), companyIds, productTitlesArr,
+                                    productImagesArr, daysArr, hoursArr, minutesArr, productIds, productCosts, productExplanation);
+                            recyclerView.setAdapter(adapter);
+                        }else {
+                            CustomAdapter adapter = new CustomAdapter(getActivity(), companyIds, productTitlesArr,
+                                    productImagesArr, daysArr, hoursArr, minutesArr, productIds, productCosts, productExplanation);
+                            recyclerView.setAdapter(adapter);
+                        }
+//                        Api.getClient().getProfile(companyId).enqueue(new Callback<GetProfilePojo>() {
+//                            @Override
+//                            public void onResponse(Call<GetProfilePojo> call, Response<GetProfilePojo> response) {
+//
+//                                String companyLogo = response.body().getCompany_logo_image();
+//                                String companyName = response.body().getCompany_name();
+//                                CustomAdapter adapter = new CustomAdapter(getActivity(), companyId2, productTitlesArr,
+//                                        productImagesArr, daysArr, hoursArr, minutesArr, productIds, productCosts, productExplanation);
+//                                recyclerView.setAdapter(adapter);
+//
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<GetProfilePojo> call, Throwable t) {
+//
+//                            }
+//                        });
                     }else {
                         noOffers.setVisibility(View.VISIBLE);
                     }

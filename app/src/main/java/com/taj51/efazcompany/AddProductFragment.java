@@ -207,7 +207,7 @@ public class AddProductFragment extends Fragment {
             Api.getClient().addCompanyOffer(pojo).enqueue(new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-                    Log.d("test add product", "1");
+                    Log.d("test add product", "company id is   "+ company_id);
 
                     id = response.body();
 

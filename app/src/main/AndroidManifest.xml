@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.taj51.efazcompany.signup"></activity>
-        <activity android:name=".CompanyData"/>
-        <activity android:name=".CompanyContacts"/>
+        <activity android:name=".CompanyDataActivity"/>
+        <activity android:name=".CompanyContactsActivity"/>
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".CompleteProfileActivity"/>
         <activity android:name=".HomeActivity"/>
@@ -29,7 +29,7 @@
         <activity android:name=".ConfirmationActivity"/>
         <activity android:name=".MyOfferComponentActivity"/>
         <activity android:name=".UpdateOfferActivity"/>
-        <activity android:name=".UpdateCompanyProfileActivity"/>
+
 
     </application>
 

@@ -2,6 +2,7 @@ package com.taj51.efazcompany;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CompanyContacts extends AppCompatActivity {
+public class CompanyContactsActivity extends AppCompatActivity {
 
     private LoginPOJO loginData;
     private EditText companyWebsite;
@@ -35,6 +36,14 @@ public class CompanyContacts extends AppCompatActivity {
     private String[] five = {"08111"};
     private String[] four = {"0570", "0571", "0572", "0576", "0577", "0578"};
     private String[] three = {"011", "012", "013", "014", "016", "017", "050", "051", "053", "054", "055", "056", "058", "059"};
+
+    private String mail = "";
+    private String password = "" ;
+    private String companyName = "";
+    private String userName  = "";
+    private String address  = "";
+    private String website = "";
+    private String phone = "";
 
     private static boolean isValidWebsite(String website) {
         return !TextUtils.isEmpty(website) && Patterns.DOMAIN_NAME.matcher(website).matches();
@@ -50,11 +59,11 @@ public class CompanyContacts extends AppCompatActivity {
         setContentView(R.layout.activity_company_contacts);
 
         Intent intent = getIntent();
-        final String mail = intent.getStringExtra("email");
-        final String password = intent.getStringExtra("password");
-        final String companyName = intent.getStringExtra("company");
-        final String userName = intent.getStringExtra("userName");
-        final String address = intent.getStringExtra("address");
+        mail = intent.getStringExtra("email");
+        password = intent.getStringExtra("password");
+        companyName = intent.getStringExtra("company");
+        userName = intent.getStringExtra("userName");
+        address = intent.getStringExtra("address");
 
 
         companyWebsite = (EditText) findViewById(R.id.organization_website);
@@ -64,9 +73,15 @@ public class CompanyContacts extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateWebsite() && validatePhone()) {
-                    String website = companyWebsite.getText().toString().trim();
-                    String phone = companyPhone.getText().toString().trim();
-                    signUp(mail, password, userName, phone, companyName, address, website, 0, 0);
+                    website = companyWebsite.getText().toString().trim();
+                    phone = companyPhone.getText().toString().trim();
+                    //signUp(mail, password, userName, phone, companyName, address, website, 0, 0);
+                    final ProgressDialog progressDialog = new ProgressDialog(CompanyContactsActivity.this);
+                    progressDialog.setCancelable(false); // set cancelable to false
+                    progressDialog.setMessage("Please Wait"); // set message
+                    progressDialog.show(); // show progress dialog
+                    new myAsync().execute();
+                    progressDialog.dismiss();
                 }
             }
         });
@@ -121,14 +136,11 @@ public class CompanyContacts extends AppCompatActivity {
 
 
         // display a progress dialog
-        final ProgressDialog progressDialog = new ProgressDialog(CompanyContacts.this);
+        final ProgressDialog progressDialog = new ProgressDialog(CompanyContactsActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false
         progressDialog.setMessage("Please Wait"); // set message
         progressDialog.show(); // show progress dialog
 
-        // Api is a class in which we define a method getClient() that returns the API Interface class object
-        // registration is a POST request type method in which we are sending our field's data
-        // enqueue is used for callback response and error
         SignUpPOJO signUpPOJO = new SignUpPOJO(registeration_email, registeration_password, registeration_username,
                 registeration_phone_number, registration_organization_name, registration_address_desc, registration_website_url,
                 registration_is_school, registration_isActive);
@@ -137,6 +149,7 @@ public class CompanyContacts extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
 
                 Intent intent = new Intent(getBaseContext(), ConfirmationActivity.class);
+                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 progressDialog.dismiss();
 
@@ -169,6 +182,46 @@ public class CompanyContacts extends AppCompatActivity {
         }
         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
         return timestamp;
+    }
+
+    public class myAsync extends AsyncTask<Void, Void, Void>{
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Intent intent = getIntent();
+            mail = intent.getStringExtra("email");
+            password = intent.getStringExtra("password");
+            companyName = intent.getStringExtra("company");
+            userName = intent.getStringExtra("userName");
+            address = intent.getStringExtra("address");
+
+
+
+            SignUpPOJO signUpPOJO = new SignUpPOJO(mail, password, userName, phone, companyName, address, website, 0, 0);
+            Api.getClient().registration(signUpPOJO).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+
+
+                    Intent intent = new Intent(getBaseContext(), ConfirmationActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    //progressDialog.dismiss();
+
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.d("response", "register " + t.getMessage());
+                    //progressDialog.dismiss();
+                }
+            });
+
+
+
+            return null;
+        }
     }
 
 

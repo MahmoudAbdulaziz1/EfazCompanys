@@ -3,6 +3,7 @@ package com.taj51.efazcompany;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -58,54 +59,52 @@ public class OfferComponentActivity extends AppCompatActivity {
         displayDate = (TextView) findViewById(R.id.display_date);
         expiredDate = (TextView) findViewById(R.id.offer_component_expire_date);
 
-        Api.getClient().getCompanyOfferData(getIntent().getIntExtra("product_id", 0)).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+//        Api.getClient().getCompanyOfferData(getIntent().getIntExtra("product_id", 0)).enqueue(new Callback<List<String>>() {
+//            @Override
+//            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+//
+//                try {
+//                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+//                    Date parsedDate2 = dateFormat.parse(response.body().get(3));
+//                    Timestamp timestamp1 = new java.sql.Timestamp(parsedDate2.getTime());
+//                    Date parsedDate3 = dateFormat.parse(response.body().get(4));
+//                    Timestamp timestamp2 = new java.sql.Timestamp(parsedDate3.getTime());
+//                    java.sql.Date date = new java.sql.Date(timestamp1.getTime());
+//                    java.sql.Date date2 = new java.sql.Date(timestamp2.getTime());
+//                    displayDate.setText(date.toString());
+//                    expiredDate.setText(date2.toString());
+//                    final long milliseconds1 = timestamp1.getTime();
+//                    final long milliseconds2 = timestamp2.getTime();
+//                    long diff = milliseconds2 - milliseconds1;
+//                    long diffDays = diff / (24 * 60 * 60 * 1000);
+//                    ProgressBar seekBar = (ProgressBar) findViewById(R.id.seekBar2);
+//                    seekBar.setMax(0);
+//                    seekBar.setMax((int) diffDays);
+//                    seekBar.setProgress(Integer.parseInt(response.body().get(0)));
+//
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<String>> call, Throwable t) {
+//
+//            }
+//        });
 
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-                    Date parsedDate2 = dateFormat.parse(response.body().get(3));
-                    Timestamp timestamp1 = new java.sql.Timestamp(parsedDate2.getTime());
-                    Date parsedDate3 = dateFormat.parse(response.body().get(4));
-                    Timestamp timestamp2 = new java.sql.Timestamp(parsedDate3.getTime());
-                    java.sql.Date date = new java.sql.Date(timestamp1.getTime());
-                    java.sql.Date date2 = new java.sql.Date(timestamp2.getTime());
-                    displayDate.setText(date.toString());
-                    expiredDate.setText(date2.toString());
-                    final long milliseconds1 = timestamp1.getTime();
-                    final long milliseconds2 = timestamp2.getTime();
-                    long diff = milliseconds2 - milliseconds1;
-                    long diffDays = diff / (24 * 60 * 60 * 1000);
-                    ProgressBar seekBar = (ProgressBar) findViewById(R.id.seekBar2);
-                    seekBar.setMax(0);
-                    seekBar.setMax((int) diffDays);
-                    seekBar.setProgress(Integer.parseInt(response.body().get(0)));
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
+        new myAsync().execute();
 
         Intent intent = getIntent();
-        Toast.makeText(getApplicationContext(), intent.getDoubleExtra("product_cost", 0) + " " + intent.getStringExtra("product_explain"), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), intent.getDoubleExtra("product_cost", 0) + " " + intent.getStringExtra("product_explain"), Toast.LENGTH_LONG).show();
 
         logo.setImageBitmap(decodeBase64(intent.getStringExtra("product_image")));
         title.setText(intent.getStringExtra("product_title"));
         explain.setText(intent.getStringExtra("product_explain"));
         cost.setText(intent.getDoubleExtra("product_cost", 0) + "");
-        //displayDate.setText(intent.getStringExtra("display"));
 
-
-//        final Handler seekBarHandler = new Handler(); // must be created in the same thread that created the SeekBar
-        //final
         String date1 = "2018-06-26 11:12:00.000";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 
@@ -125,76 +124,58 @@ public class OfferComponentActivity extends AppCompatActivity {
             final long diffMinutes = rem2 / (60 * 1000);
             Log.d("progressbar", diffMinutes + " ss");
 
-            // you should define max in xml, but if you need to do this by code, you must set max as 0 and then your desired value. this is because a bug in SeekBar (issue 12945) (don't really checked if it was corrected)
-//            seekBar.setMax(0);
-//            seekBar.setMax((int) diffMinutes);
-//            seekBar.setProgress(10);
-
-//            final Thread thread = new Thread(){
-//                @Override
-//                public void run() {
-//                    super.run();
-//
-//
-//                    if (seekBar != null) {
-//                        seekBar.setMax(0);
-//                        seekBar.setMax((int) diffMinutes);
-//                        while (seekBar.getProgress() < diffMinutes) {
-//                            runOnUiThread(new Runnable() {
-//                                public void run() {
-//                                    java.sql.Timestamp display = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-//                                    long t = display.getTime();
-//                                    long diff2 = milliseconds2 - t;
-//                                    long min2 = diff2 / (60 * 1000);
-//                                    long a = diffMinutes - diff2;
-//                                    if (a != progress){
-//                                        progress = a;
-//                                        seekBar.setProgress((int) a);
-//                                    }
-//
-//                                }
-//                            });
-//                        }
-//                    }
-//
-//                }
-//            };
-//            thread.start();
-
-//            seekBarHandler.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    long progress = 0;
-//                    if (seekBar != null) {
-//                        seekBar.setMax(0);
-//                        seekBar.setMax((int) diffMinutes);
-//                        while (seekBar.getProgress() < diffMinutes){
-//                            java.sql.Timestamp display = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-//                            long t = display.getTime();
-//                            long diff2 = milliseconds2 - t;
-//                            long min2 = diff2 / (60 * 1000);
-//                            long a = diffMinutes - diff2;
-//                            progress = a;
-//                            seekBar.setProgress((int) a);
-//                        }
-//
-//                    }
-//                }
-//            });
 
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "test nav", Toast.LENGTH_LONG).show();
-            }
-        });
 
 
+    }
+
+    public class myAsync extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Api.getClient().getCompanyOfferData(getIntent().getIntExtra("product_id", 0)).enqueue(new Callback<List<String>>() {
+                @Override
+                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+                        Date parsedDate2 = dateFormat.parse(response.body().get(3));
+                        Timestamp timestamp1 = new java.sql.Timestamp(parsedDate2.getTime());
+                        Date parsedDate3 = dateFormat.parse(response.body().get(4));
+                        Timestamp timestamp2 = new java.sql.Timestamp(parsedDate3.getTime());
+                        java.sql.Date date = new java.sql.Date(timestamp1.getTime());
+                        java.sql.Date date2 = new java.sql.Date(timestamp2.getTime());
+                        displayDate.setText(date.toString());
+                        expiredDate.setText(date2.toString());
+                        final long milliseconds1 = timestamp1.getTime();
+                        final long milliseconds2 = timestamp2.getTime();
+                        long diff = milliseconds2 - milliseconds1;
+                        long diffDays = diff / (24 * 60 * 60 * 1000);
+                        ProgressBar seekBar = (ProgressBar) findViewById(R.id.seekBar2);
+                        seekBar.setMax(0);
+                        seekBar.setMax((int) diffDays);
+                        seekBar.setProgress(Integer.parseInt(response.body().get(0)));
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<List<String>> call, Throwable t) {
+
+                }
+            });
+
+            return null;
+        }
     }
 
 

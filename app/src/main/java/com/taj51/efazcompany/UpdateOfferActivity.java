@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -136,6 +138,7 @@ public class UpdateOfferActivity extends AppCompatActivity {
                                     new myAsync().execute();
                                     Intent intent = new Intent(getBaseContext(), HomeActivity.class);
                                     intent.putExtra("id", companyId);
+                                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
 
 

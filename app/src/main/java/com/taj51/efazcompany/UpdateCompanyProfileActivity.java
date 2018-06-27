@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -64,6 +67,7 @@ public class UpdateCompanyProfileActivity extends Fragment {
     private String youtube = "";
     private String website = "";
     private String byts2 = "";
+    private String cat2 = "";
     private List<CategoryPojo> categoryPojos;
 
     // method for base64 to bitmap
@@ -176,11 +180,10 @@ public class UpdateCompanyProfileActivity extends Fragment {
                     }
                 });
 
+                if (category.trim().equals("")){
+                    category= cat2;
+                }
 
-//                if (byts.equals("")){
-//                    img.setFocusable(true);
-//                    Toast.makeText(getActivity().getBaseContext(), "Select Image Please", Toast.LENGTH_LONG).show();
-//                }else {
                 if (name.equals("")) {
                     nameTxt.setError(getResources().getString(R.string.org_name));
                     nameTxt.requestFocus();
@@ -200,9 +203,15 @@ public class UpdateCompanyProfileActivity extends Fragment {
 
                                 if (byts.equals("")) {
                                    byts = byts2;
+                                   if (category.trim().equals("")){
+                                       category= cat2;
+                                   }
+                                   Log.d("TestAPiUpdate", cat2);
                                     if (youtube.equals("")) {
+                                        Log.d("TestAPiUpdate", "youtube");
 
                                         if (validateWebsite()) {
+                                            Log.d("TestAPiUpdate", website);
                                             final int id = getArguments().getInt("id", 0);
                                             final String email = getArguments().getString("email");
                                             ProfilePOJO pojo = new ProfilePOJO(getArguments().getInt("id", 0), name, Base64.decode(byts, 0),
@@ -210,14 +219,20 @@ public class UpdateCompanyProfileActivity extends Fragment {
                                             Api.getClient().updateProfile(pojo).enqueue(new Callback<Integer>() {
                                                 @Override
                                                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-                                                    Intent move = new Intent(getActivity().getBaseContext(), ProfileActivity.class);
+                                                    Log.d("TestAPiUpdate", "updated");
+                                                    Intent move = new Intent(getActivity().getBaseContext(), HomeActivity.class);
                                                     move.putExtra("id", id);
                                                     move.putExtra("email", email);
-                                                    startActivity(move);
+                                                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                    FragmentTransaction trans = manager.beginTransaction();
+                                                    trans.remove(new UpdateCompanyProfileActivity());
+                                                    trans.commit();
+                                                    manager.popBackStack();                                                    startActivity(move);
                                                 }
 
                                                 @Override
                                                 public void onFailure(Call<Integer> call, Throwable t) {
+                                                    Log.d("TestAPiUpdate", "not updated" + t.getMessage());
 
                                                 }
                                             });
@@ -230,11 +245,19 @@ public class UpdateCompanyProfileActivity extends Fragment {
                                             if (validateWebsite()) {
                                                 ProfilePOJO pojo = new ProfilePOJO(getArguments().getInt("id", 0), name, Base64.decode(byts, 0),
                                                         address, category, youtube, website);
-                                                Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
+                                                Api.getClient().updateProfile(pojo).enqueue(new Callback<Integer>() {
                                                     @Override
                                                     public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                                        final int id = getArguments().getInt("id", 0);
+                                                        final String email = getArguments().getString("email");
                                                         Intent intent1 = new Intent(getActivity().getBaseContext(), HomeActivity.class);
-                                                        startActivity(intent1);
+                                                        intent1.putExtra("id", id);
+                                                        intent1.putExtra("email", email);
+                                                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                        FragmentTransaction trans = manager.beginTransaction();
+                                                        trans.remove(new UpdateCompanyProfileActivity());
+                                                        trans.commit();
+                                                        manager.popBackStack();                                                        startActivity(intent1);
                                                     }
 
                                                     @Override
@@ -255,6 +278,8 @@ public class UpdateCompanyProfileActivity extends Fragment {
                                     }
                                 } else {
 
+
+
                                     if (youtube.equals("")) {
 
                                         if (validateWebsite()) {
@@ -265,9 +290,14 @@ public class UpdateCompanyProfileActivity extends Fragment {
                                             Api.getClient().updateProfile(pojo).enqueue(new Callback<Integer>() {
                                                 @Override
                                                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-                                                    Intent move = new Intent(getActivity().getBaseContext(), ProfileActivity.class);
+                                                    Intent move = new Intent(getActivity().getBaseContext(), HomeActivity.class);
                                                     move.putExtra("id", id);
                                                     move.putExtra("email", email);
+                                                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                    FragmentTransaction trans = manager.beginTransaction();
+                                                    trans.remove(new UpdateCompanyProfileActivity());
+                                                    trans.commit();
+                                                    manager.popBackStack();
                                                     startActivity(move);
                                                 }
 
@@ -288,7 +318,16 @@ public class UpdateCompanyProfileActivity extends Fragment {
                                                 Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
                                                     @Override
                                                     public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                                        final int id = getArguments().getInt("id", 0);
+                                                        final String email = getArguments().getString("email");
                                                         Intent intent1 = new Intent(getActivity().getBaseContext(), HomeActivity.class);
+                                                        intent1.putExtra("id", id);
+                                                        intent1.putExtra("email", email);
+                                                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                        FragmentTransaction trans = manager.beginTransaction();
+                                                        trans.remove(new UpdateCompanyProfileActivity());
+                                                        trans.commit();
+                                                        manager.popBackStack();
                                                         startActivity(intent1);
                                                     }
 
@@ -315,14 +354,6 @@ public class UpdateCompanyProfileActivity extends Fragment {
                         }
                     }
                 }
-
-
-//                if (byts.equals("") || name.equals("") || address.equals("") || category.equals("") || website.equals("")){
-//                    Toast.makeText(getBaseContext(), "Fill all data please", Toast.LENGTH_LONG).show();
-//                }else {
-//
-//
-//                }
 
 
             }
@@ -388,6 +419,7 @@ public class UpdateCompanyProfileActivity extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            Log.d("UpdateProfile", id +"");
             Api.getClient().getProfile(id).enqueue(new Callback<GetProfilePojo>() {
                 @Override
                 public void onResponse(Call<GetProfilePojo> call, Response<GetProfilePojo> response) {
@@ -400,7 +432,9 @@ public class UpdateCompanyProfileActivity extends Fragment {
                     addressTxt.setText(profilePojo.getCompany_address());
                     websiteTxt.setText(profilePojo.getCompany_website_url());
                     youtubeTxt.setText(profilePojo.getCompany_link_youtube());
-                    int indexCategory = categoryNames.indexOf(profilePojo.getCompany_service_desc());
+                    cat2 = profilePojo.getCompany_service_desc();
+                    Log.d("TstApiUpdate", "cat= " +cat2);
+                    int indexCategory = categoryNames.indexOf(cat2);
                     spin.setSelection(indexCategory);
 
                 }

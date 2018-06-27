@@ -108,6 +108,23 @@ public class CompleteProfileActivity extends AppCompatActivity {
             }
         });
 
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(position == 0){
+                    category = "";
+                }else {
+                    category = parent.getItemAtPosition(position).toString();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,23 +134,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
                 address = addressTxt.getText().toString().trim();
                 youtube = youtubeTxt.getText().toString().trim();
                 website = websiteTxt.getText().toString().trim();
-                spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                        if(position == 0){
-                            category = "";
-                        }else {
-                            category = parent.getItemAtPosition(position).toString();
-                        }
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
 
 
 
@@ -167,9 +168,10 @@ public class CompleteProfileActivity extends AppCompatActivity {
                                             Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
                                                 @Override
                                                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-                                                    Intent move = new Intent(getBaseContext(), ProfileActivity.class);
+                                                    Intent move = new Intent(getBaseContext(), HomeActivity.class);
                                                     move.putExtra("id", id);
                                                     move.putExtra("email", email);
+                                                    move.setFlags(move.FLAG_ACTIVITY_NEW_TASK | move.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(move);
                                                 }
 
@@ -191,6 +193,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onResponse(Call<Integer> call, Response<Integer> response) {
                                                         Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
+                                                        intent1.setFlags(intent1.FLAG_ACTIVITY_NEW_TASK | intent1.FLAG_ACTIVITY_CLEAR_TASK);
                                                         startActivity(intent1);
                                                     }
 

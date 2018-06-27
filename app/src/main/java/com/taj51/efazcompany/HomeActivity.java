@@ -33,6 +33,8 @@ public class HomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout dLayout;
     //private FragmentTransaction transaction;
+    private SharedPreferences saveCompanyData;
+    private int usedId = 0;
 
     // method for base64 to bitmap
     public static Bitmap decodeBase64(String encodedImage) {
@@ -49,13 +51,22 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar); // Setting/replace toolbar as the ActionBar4
         toolbar.setTitle(getResources().getString(R.string.app_name)); // setting a title for this Toolbar
         prf = getSharedPreferences("ids", MODE_PRIVATE);
+        //saveCompanyData = getSharedPreferences("company", MODE_PRIVATE);
         //transaction = getSupportFragmentManager().beginTransaction();
+
         int t = prf.getInt("id", 0);
         if (t == 0) {
             SharedPreferences.Editor edit = prf.edit();
             edit.putInt("id", getIntent().getIntExtra("id", 0));
+            edit.putString("email", getIntent().getStringExtra("email"));
             edit.commit();
         }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dLayout.openDrawer(Gravity.START);
+            }
+        });
 
 
         Intent intentData = getIntent();
@@ -73,12 +84,7 @@ public class HomeActivity extends AppCompatActivity {
         transaction.commit(); // commit the changes
 
         setNavigationDrawer();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dLayout.openDrawer(Gravity.START);
-            }
-        });
+
 
         //Toast.makeText(getApplicationContext(), intent.getIntExtra("id",0) + " " +  intent.getStringExtra("email"),Toast.LENGTH_LONG).show();
 
@@ -121,11 +127,19 @@ public class HomeActivity extends AppCompatActivity {
                 //Fragment frag = null; // create a Fragment Object
                 int itemId = menuItem.getItemId(); // get selected menu item's id
 // check selected menu item's id and replace a Fragment Accordingly
+
                 if (itemId == R.id.Home) {
                     Intent intent = getIntent();
+                    int num = intent.getIntExtra("id", 0);
+                    String email = "";
+                    if (num == 0){
+                        num = prf.getInt("id", 0);
+                        usedId = num;
+                        email = prf.getString("email", "");
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putString("", "From Activity");
-                    bundle.putInt("id", intent.getIntExtra("id", 0));
+                    bundle.putInt("id", num);
                     bundle.putString("email", intent.getStringExtra("email"));
                     bundle.putString("password", intent.getStringExtra("password"));
                     bundle.putInt("active", intent.getIntExtra("active", 0));
@@ -136,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (itemId == R.id.offer) {
                     Intent intent = getIntent();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("id", intent.getIntExtra("id", 0));
+                    bundle.putInt("id", prf.getInt("id", 0));
                     frag = new OfferFragment();
                     frag.setArguments(bundle);
 
@@ -144,8 +158,8 @@ public class HomeActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     Bundle bundle = new Bundle();
                     bundle.putString("ss", "From Activity");
-                    bundle.putInt("id", intent.getIntExtra("id", 0));
-                    bundle.putString("email", intent.getStringExtra("email"));
+                    bundle.putInt("id", prf.getInt("id", 0));
+                    bundle.putString("email", prf.getString("email", ""));
                     bundle.putString("password", intent.getStringExtra("password"));
                     bundle.putInt("active", intent.getIntExtra("active", 0));
                     bundle.putInt("type", intent.getIntExtra("type", 0));
@@ -155,8 +169,8 @@ public class HomeActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     Bundle bundle = new Bundle();
                     bundle.putString("ss", "From Activity");
-                    bundle.putInt("id", intent.getIntExtra("id", 0));
-                    bundle.putString("email", intent.getStringExtra("email"));
+                    bundle.putInt("id", prf.getInt("id", 0));
+                    bundle.putString("email", prf.getString("email", ""));
                     bundle.putString("password", intent.getStringExtra("password"));
                     bundle.putInt("active", intent.getIntExtra("active", 0));
                     bundle.putInt("type", intent.getIntExtra("type", 0));

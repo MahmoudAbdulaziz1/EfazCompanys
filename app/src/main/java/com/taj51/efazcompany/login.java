@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -33,16 +34,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class login extends AppCompatActivity {
-    private LoginPOJO loginData;
-    private TextView fbook,  sin, sup, login;//acc,
-    private EditText mal, pswd;
-    private SharedPreferences save;
-    private SharedPreferences visible;
     SharedPreferences remPreference;
+    private LoginPOJO loginData;
+    private TextView fbook, sin, sup, login;//acc,
+    private EditText mal, pswd;
+    private SharedPreferences visible;
     private boolean isVisible;
     private ImageButton visibleBtn;
     private CheckBox remmeberMe;
+    private String emailT = "";
+    private String passwordT = "";
 
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,54 +57,29 @@ public class login extends AppCompatActivity {
         remPreference = getSharedPreferences("remmber", MODE_PRIVATE);
         boolean remmberBool = remPreference.getBoolean("remm", false);
 
-        if (remmberBool){
+        if (remmberBool) {
             String email = remPreference.getString("email", "").trim();
             String password = remPreference.getString("password", "").trim();
             logIn(email, password, 1, 0);
-            //Toast.makeText(getApplicationContext(), email+ " remmber "+ password, Toast.LENGTH_LONG).show();
         }
 
-        save = getSharedPreferences("login", MODE_PRIVATE);
+        //save = getSharedPreferences("login", MODE_PRIVATE);
         visible = getSharedPreferences("visible", MODE_PRIVATE);
-        String reEmail = save.getString("email", "");
-        String rePassword = save.getString("pass", "");
-        SharedPreferences.Editor editor = save.edit();
-        editor.putString("email", "");
-        editor.putString("pass", "");
-        editor.commit();
         sup = (TextView) findViewById(R.id.sup);
         sin = (TextView) findViewById(R.id.sin);
         login = (TextView) findViewById(R.id.sinnp);
-        fbook = (TextView) findViewById(R.id.fboook);
-        //acc = (TextView) findViewById(R.id.act);
         mal = (EditText) findViewById(R.id.mal);
         pswd = (EditText) findViewById(R.id.pswd);
         remmeberMe = (CheckBox) findViewById(R.id.remmeberMe);
 
-        mal.setText(reEmail);
-        pswd.setText(rePassword);
         sup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor2 = save.edit();
-                editor2.putString("email", mal.getText().toString().trim().toLowerCase());
-                editor2.putString("pass", pswd.getText().toString().trim());
-                editor2.commit();
                 Intent it = new Intent(login.this, signup.class);
                 startActivity(it);
             }
         });
-//        acc.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent it = new Intent(login.this, signup.class);
-//                SharedPreferences.Editor editor2 = save.edit();
-//                editor2.putString("email", mal.getText().toString().trim().toLowerCase());
-//                editor2.putString("pass", pswd.getText().toString().trim());
-//                editor2.commit();
-//                startActivity(it);
-//            }
-//        });
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +93,15 @@ public class login extends AppCompatActivity {
                     } else {
                         String email = mal.getText().toString().trim();
                         String password = pswd.getText().toString().trim();
-                        logIn(email, password, 1, 0);
+                        emailT = email;
+                        passwordT = password;
+                        final ProgressDialog progressDialog = new ProgressDialog(login.this);
+                        progressDialog.setCancelable(false); // set cancelable to false
+                        progressDialog.setMessage("Please Wait"); // set message
+                        progressDialog.show();
+                        //logIn(email, password, 1, 0);
+                        new ActiveAsync().execute();
+                        progressDialog.dismiss();
                     }
                 }
 
@@ -171,7 +159,6 @@ public class login extends AppCompatActivity {
 
     }
 
-
     public void logIn(final String user_email, final String user_password, int is_active, final int login_type) {
 
         // display a progress dialog
@@ -189,9 +176,10 @@ public class login extends AppCompatActivity {
 
                 try {
                     boolean isFound;
-                    if (response.body() == null){
+                    if (response.body() == null) {
                         isFound = false;
-                    }else {
+                        remmeberMe.setChecked(false);
+                    } else {
                         isFound = response.body();
                     }
 
@@ -238,12 +226,18 @@ public class login extends AppCompatActivity {
                                                         }
                                                     });
 
+
+                                                    //new ActiveAsync().execute();
+
+
+
                                                     Intent intent = new Intent(getBaseContext(), HomeActivity.class);
                                                     intent.putExtra("id", loginData.getLogin_id());
                                                     intent.putExtra("email", loginData.getUser_email());
                                                     intent.putExtra("password", loginData.getUser_password());
                                                     intent.putExtra("active", loginData.getIs_active());
                                                     intent.putExtra("type", loginData.getLogin_type());
+                                                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(intent);
                                                     progressDialog.dismiss();
                                                 }
@@ -254,7 +248,7 @@ public class login extends AppCompatActivity {
                                                 }
                                             });
                                         } else if (result == 0) {
-                                            Toast.makeText(getApplicationContext(), "Complete your Profile", Toast.LENGTH_LONG).show();
+                                            //Toast.makeText(getApplicationContext(), "Complete your Profile", Toast.LENGTH_LONG).show();
 
                                             Intent intent = new Intent(getBaseContext(), CompleteProfileActivity.class);
                                             Log.d("test", loginData.getLogin_id() + "");
@@ -265,6 +259,18 @@ public class login extends AppCompatActivity {
                                             editor.putString("email", loginData.getUser_email());
                                             editor.putString("password", loginData.getUser_password());
                                             editor.commit();
+                                            Api.getClient().activeLogin(loginData.getLogin_id()).enqueue(new Callback<Void>() {
+                                                @Override
+                                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                                    Log.d("active", "response");
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Void> call, Throwable t) {
+                                                    Log.d("active", "fail");
+                                                }
+                                            });
+                                            intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                             progressDialog.dismiss();
                                         }
@@ -308,21 +314,11 @@ public class login extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        SharedPreferences.Editor editor = save.edit();
-        editor.putString("email", "");
-        editor.putString("pass", "");
-        editor.commit();
-        SharedPreferences s = getSharedPreferences("signup", MODE_PRIVATE);
-        SharedPreferences.Editor editor2 = s.edit();
-        editor2.putString("email", "");
-        editor2.putString("pass", "");
-        editor2.putString("pass2", "");
-        editor2.commit();
+
     }
 
     private boolean validateEmail() {
@@ -335,10 +331,6 @@ public class login extends AppCompatActivity {
         }
 
         return true;
-    }
-
-    private static boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     public String getDateFor() {
@@ -359,5 +351,152 @@ public class login extends AppCompatActivity {
         }
         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
         return timestamp;
+    }
+
+
+    public class ActiveAsync extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            final LoginPOJO loginPOJO = new LoginPOJO(emailT, passwordT, 1, 0);
+
+            Api.getClient().isLogged(loginPOJO).enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+
+                    try {
+                        boolean isFound;
+                        if (response.body() == null) {
+                            isFound = false;
+                            remmeberMe.setChecked(false);
+                        } else {
+                            isFound = response.body();
+                        }
+
+                        if (isFound) {
+
+
+                            Api.getClient().getLoggedId(loginPOJO).enqueue(new Callback<LoginPOJO>() {
+                                @Override
+                                public void onResponse(Call<LoginPOJO> call, Response<LoginPOJO> response) {
+                                    //Toast.makeText(getApplicationContext(), response.body()+"", Toast.LENGTH_LONG).show();
+                                    loginData = response.body();
+
+                                    Api.getClient().CheckProfileExist(loginData.getLogin_id()).enqueue(new Callback<Integer>() {
+                                        @Override
+                                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                            int result = response.body();
+                                            if (result > 0) {
+
+                                                String dates = getDateFor();
+
+                                                Timestamp time = getTimeStamp(dates);
+                                                WifiManager wm = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+                                                String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+                                                LoginDetailsPOJO loginDetailsPOJO = new LoginDetailsPOJO(loginData.getLogin_id(), 0, dates, ip, 1);
+                                                Api.getClient().addLoginDetails(loginDetailsPOJO).enqueue(new Callback<Void>() {
+                                                    @Override
+                                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                                        SharedPreferences.Editor editor = remPreference.edit();
+                                                        editor.putBoolean("remm", remmeberMe.isChecked());
+                                                        editor.putString("email", loginData.getUser_email());
+                                                        editor.putString("password", passwordT);
+                                                        //editor2.putString("pass", pswd.getText().toString().trim());
+                                                        editor.commit();
+
+                                                        Api.getClient().activeLogin(loginData.getLogin_id()).enqueue(new Callback<Void>() {
+                                                            @Override
+                                                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                                                Log.d("active", "response");
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<Void> call, Throwable t) {
+                                                                Log.d("active", "fail");
+                                                            }
+                                                        });
+
+
+                                                        //new ActiveAsync().execute();
+
+
+
+                                                        Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                                                        intent.putExtra("id", loginData.getLogin_id());
+                                                        intent.putExtra("email", loginData.getUser_email());
+                                                        intent.putExtra("password", loginData.getUser_password());
+                                                        intent.putExtra("active", loginData.getIs_active());
+                                                        intent.putExtra("type", loginData.getLogin_type());
+                                                        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(intent);
+//                                                        progressDialog.dismiss();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<Void> call, Throwable t) {
+
+                                                    }
+                                                });
+                                            } else if (result == 0) {
+                                                Toast.makeText(getApplicationContext(), "Complete your Profile", Toast.LENGTH_LONG).show();
+
+                                                Intent intent = new Intent(getBaseContext(), CompleteProfileActivity.class);
+                                                Log.d("test", loginData.getLogin_id() + "");
+                                                intent.putExtra("id", loginData.getLogin_id());
+                                                intent.putExtra("email", loginData.getUser_email());
+                                                SharedPreferences.Editor editor = remPreference.edit();
+                                                editor.putBoolean("remm", true);
+                                                editor.putString("email", loginData.getUser_email());
+                                                editor.putString("password", loginData.getUser_password());
+                                                editor.commit();
+                                                startActivity(intent);
+                                                //progressDialog.dismiss();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Integer> call, Throwable t) {
+
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<LoginPOJO> call, Throwable t) {
+
+                                }
+                            });
+
+
+                        } else {
+                            //progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(), "Email not found Or may be not Conformed", Toast.LENGTH_LONG).show();
+                            //pswd.setError(getResources().getString(R.string.password_error));
+                            pswd.requestFocus();
+                        }
+
+                    } catch (IllegalStateException e) {
+                        Toast.makeText(getApplicationContext(), loginData.getLogin_id(), Toast.LENGTH_LONG).show();
+                        Log.d("test", loginData.getLogin_id() + "    dsfsdfsdffffff");
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
+
+
+
+
+            return null;
+        }
     }
 }

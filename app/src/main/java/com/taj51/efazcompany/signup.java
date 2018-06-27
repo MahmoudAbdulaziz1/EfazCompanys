@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 
 public class signup extends AppCompatActivity {
-    private TextView sup, act, sin, fbook;
+    private TextView sup, act, sin;//, fbook
     private EditText pswd, cpswd, mail;
     private Button next;
-    private SharedPreferences save;
+
     private SharedPreferences visible;
     private boolean isVisible;
     private boolean isVisible2;
@@ -35,47 +35,20 @@ public class signup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         visible = getSharedPreferences("pvisible", MODE_PRIVATE);
-        save = getSharedPreferences("signup", MODE_PRIVATE);
-        String reEmail = save.getString("email", "");
-        String rePassword = save.getString("pass", "");
-        String cRePassword = save.getString("pass2", "");
-        SharedPreferences.Editor editor = save.edit();
-        editor.putString("email", "");
-        editor.putString("pass", "");
-        editor.putString("pass2", "");
-        editor.commit();
+
 
         sup = (TextView) findViewById(R.id.sup);
         sin = (TextView) findViewById(R.id.sin);
-        fbook = (TextView) findViewById(R.id.fboook);
         act = (TextView) findViewById(R.id.act);
         mail = (EditText) findViewById(R.id.mal);
         pswd = (EditText) findViewById(R.id.pswd);
         cpswd = (EditText) findViewById(R.id.cpswd);
 
-        mail.setText(reEmail);
-        pswd.setText(rePassword);
-        cpswd.setText(cRePassword);
-        fbook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor editor2 = save.edit();
-                editor2.putString("email", mail.getText().toString().trim());
-                editor2.putString("pass", pswd.getText().toString().trim());
-                editor2.putString("pass2", cpswd.getText().toString().trim());
-                editor2.commit();
-                Intent it = new Intent(signup.this, login.class);
-                startActivity(it);
-            }
-        });
+
         sin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor2 = save.edit();
-                editor2.putString("email", mail.getText().toString().trim());
-                editor2.putString("pass", pswd.getText().toString().trim());
-                editor2.putString("pass2", cpswd.getText().toString().trim());
-                editor2.commit();
+
                 Intent it = new Intent(signup.this, login.class);
                 startActivity(it);
             }
@@ -84,7 +57,7 @@ public class signup extends AppCompatActivity {
         act.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(signup.this, CompanyData.class);
+                Intent it = new Intent(signup.this, CompanyDataActivity.class);
                 if (validateEmail() && validate(pswd) && confirmPassword(cpswd) && validateConfirm(pswd, cpswd)) {
                     it.putExtra("email", mail.getText().toString().trim());
                     it.putExtra("password", pswd.getText().toString().trim());
@@ -241,15 +214,5 @@ public class signup extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SharedPreferences.Editor editor = save.edit();
-        editor.putString("email", "");
-        editor.putString("pass", "");
-        editor.putString("pass2", "");
-        editor.commit();
-        SharedPreferences s = getSharedPreferences("login", MODE_PRIVATE);
-        SharedPreferences.Editor editor2 = s.edit();
-        editor2.putString("email", "");
-        editor2.putString("pass", "");
-        editor2.commit();
     }
 }
