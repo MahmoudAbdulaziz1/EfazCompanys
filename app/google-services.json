@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "460031886159",
+    "firebase_url": "https://efazcompany-552cc.firebaseio.com",
+    "project_id": "efazcompany-552cc",
+    "storage_bucket": "efazcompany-552cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460031886159:android:3a72b0ee1613a87b",
+        "android_client_info": {
+          "package_name": "com.taj51.efazcompany"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460031886159-ksueqma5tvk8coe4ekh3ejlp0b849f22.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taj51.efazcompany",
+            "certificate_hash": "bb5f940000ee7e8c65074eff5a196448336745e0"
+          }
+        },
+        {
+          "client_id": "460031886159-ra058s4licff48grclhh38s2equb88sq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7Ug7xWiKj6BtpOiRrIwF6-zd4Ybl5AV8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460031886159-ra058s4licff48grclhh38s2equb88sq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

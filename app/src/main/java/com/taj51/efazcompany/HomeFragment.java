@@ -1,12 +1,14 @@
 package com.taj51.efazcompany;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.SignalStrength;
@@ -77,7 +79,7 @@ public class HomeFragment extends Fragment {
                     tempList = temp;
                     if (tempList.size()>0) {
                         noOffers.setVisibility(View.GONE);
-                        Log.d("getResponse", tempList.get(1).getOffer_logo() + "");
+                        //Log.d("getResponse", tempList.get(1).getOffer_logo() + "");
                         final ArrayList<String> productTitlesArr = new ArrayList<String>();
                         final ArrayList<String> productImagesArr = new ArrayList<String>();
                         final ArrayList<String> daysArr = new ArrayList<String>();
@@ -185,4 +187,5 @@ public class HomeFragment extends Fragment {
 //            }
         }
     }
+
 }

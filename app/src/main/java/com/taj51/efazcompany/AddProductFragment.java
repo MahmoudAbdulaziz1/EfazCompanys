@@ -216,7 +216,7 @@ public class AddProductFragment extends Fragment {
 
                     Log.d("test add product", "3");
 
-                    productImage.setImageResource(R.drawable.backgrd);
+                    productImage.setImageResource(R.drawable.efaz_logo);
                     productTitle.setText("");
                     productExplanation.setText("");
                     productCost.setText("");

@@ -1,5 +1,6 @@
 package com.taj51.efazcompany;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -99,8 +101,10 @@ public class HomeActivity extends AppCompatActivity {
         final TextView nav_user = (TextView) hView.findViewById(R.id.nav_header_company_name);
         final ImageView img = (ImageView) hView.findViewById(R.id.nav_header_logo);
         int num = getIntent().getIntExtra("id", 0);
-        if (num == 0)
+        if (num == 0) {
+            Log.d("id", num + "");
             num = prf.getInt("id", 0);
+        }
         Api.getClient().getProfile(num).enqueue(new Callback<GetProfilePojo>() {
             @Override
             public void onResponse(Call<GetProfilePojo> call, Response<GetProfilePojo> response) {
@@ -149,16 +153,30 @@ public class HomeActivity extends AppCompatActivity {
 
                 } else if (itemId == R.id.offer) {
                     Intent intent = getIntent();
+                    int num = intent.getIntExtra("id", 0);
+                    String email = "";
+                    if (num == 0){
+                        num = prf.getInt("id", 0);
+                        usedId = num;
+                        email = prf.getString("email", "");
+                    }
                     Bundle bundle = new Bundle();
-                    bundle.putInt("id", prf.getInt("id", 0));
+                    bundle.putInt("id", num);
                     frag = new OfferFragment();
                     frag.setArguments(bundle);
 
                 } else if (itemId == R.id.Profile) {
                     Intent intent = getIntent();
+                    int num = intent.getIntExtra("id", 0);
+                    String email = "";
+                    if (num == 0){
+                        num = prf.getInt("id", 0);
+                        usedId = num;
+                        email = prf.getString("email", "");
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putString("ss", "From Activity");
-                    bundle.putInt("id", prf.getInt("id", 0));
+                    bundle.putInt("id", num);
                     bundle.putString("email", prf.getString("email", ""));
                     bundle.putString("password", intent.getStringExtra("password"));
                     bundle.putInt("active", intent.getIntExtra("active", 0));
@@ -167,9 +185,16 @@ public class HomeActivity extends AppCompatActivity {
                     frag.setArguments(bundle);
                 } else if (itemId == R.id.update_profile) {
                     Intent intent = getIntent();
+                    int num = intent.getIntExtra("id", 0);
+                    String email = "";
+                    if (num == 0){
+                        num = prf.getInt("id", 0);
+                        usedId = num;
+                        email = prf.getString("email", "");
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putString("ss", "From Activity");
-                    bundle.putInt("id", prf.getInt("id", 0));
+                    bundle.putInt("id", num);
                     bundle.putString("email", prf.getString("email", ""));
                     bundle.putString("password", intent.getStringExtra("password"));
                     bundle.putInt("active", intent.getIntExtra("active", 0));
@@ -238,4 +263,21 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Closing App")
+                .setMessage("Are you sure you want to close this App?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 }

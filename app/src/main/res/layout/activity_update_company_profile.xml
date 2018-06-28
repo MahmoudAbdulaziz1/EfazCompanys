@@ -18,7 +18,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="25dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/backgrd" />
+                android:src="@drawable/efaz_logo" />
 
             <LinearLayout
                 android:layout_width="match_parent"

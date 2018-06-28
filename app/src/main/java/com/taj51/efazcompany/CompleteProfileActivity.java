@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
@@ -162,6 +163,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
                                     if (youtube.equals("")){
                                         if (validateWebsite()) {
                                             final int id = intent.getIntExtra("id", 0);
+                                            Log.d("testComplete", id +" ");
                                             final String email = intent.getStringExtra("email");
                                             ProfilePOJO pojo = new ProfilePOJO(intent.getIntExtra("id", 0), name, Base64.decode(byts, 0),
                                                     address, category, youtube, website);
@@ -169,7 +171,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                                                     Intent move = new Intent(getBaseContext(), HomeActivity.class);
-                                                    move.putExtra("id", id);
+                                                    move.putExtra("id", intent.getIntExtra("id", 0));
                                                     move.putExtra("email", email);
                                                     move.setFlags(move.FLAG_ACTIVITY_NEW_TASK | move.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(move);
@@ -187,12 +189,17 @@ public class CompleteProfileActivity extends AppCompatActivity {
                                     }else {
                                         if (validateYoutubeUrl()){
                                             if (validateWebsite()){
+                                                final int id = intent.getIntExtra("id", 0);
+                                                Log.d("testComplete", id +" ");
+                                                final String email = intent.getStringExtra("email");
                                                 ProfilePOJO pojo = new ProfilePOJO(intent.getIntExtra("id", 0), name, Base64.decode(byts, 0),
                                                         address, category, youtube, website);
                                                 Api.getClient().AddUserProfile(pojo).enqueue(new Callback<Integer>() {
                                                     @Override
                                                     public void onResponse(Call<Integer> call, Response<Integer> response) {
                                                         Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
+                                                        intent1.putExtra("id", intent.getIntExtra("id", 0));
+                                                        intent1.putExtra("email", email);
                                                         intent1.setFlags(intent1.FLAG_ACTIVITY_NEW_TASK | intent1.FLAG_ACTIVITY_CLEAR_TASK);
                                                         startActivity(intent1);
                                                     }

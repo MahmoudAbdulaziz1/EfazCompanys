@@ -3,6 +3,7 @@ package com.taj51.efazcompany;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,9 +51,28 @@ public class login extends AppCompatActivity {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    public void changeLang(String lan){
+        Locale locale = new Locale("ar");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("lang", MODE_PRIVATE).edit();
+        editor.putString("ar","ar");
+        editor.apply();
+        recreate();
+    }
+
+    public void loadLang(){
+        SharedPreferences preferences = getSharedPreferences("lang",MODE_PRIVATE);
+        String l = preferences.getString("ar","en");
+        changeLang(l);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        loadLang();
         setContentView(R.layout.activity_login);
 
         remPreference = getSharedPreferences("remmber", MODE_PRIVATE);
@@ -83,6 +104,7 @@ public class login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeLang("ar");
                 if (mal.getText().toString().trim().equals("") || mal.getText().toString().trim().equals(null) || !isValidEmail(mal.getText().toString().trim().toLowerCase())) {
                     mal.setError(getResources().getString(R.string.email_error));
                     mal.requestFocus();
